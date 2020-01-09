@@ -147,5 +147,11 @@
     },
     "symfony/yaml": {
         "version": "v5.0.2"
+    },
+    "webmozart/assert": {
+        "version": "1.6.0"
+    },
+    "webmozart/path-util": {
+        "version": "2.3.0"
     }
 }

@@ -2,39 +2,84 @@
 
 namespace App\Command;
 
+use App\Entity\Section;
+use App\Entity\SimpleItem;
+use Exception;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Yaml\Yaml;
+use Webmozart\PathUtil\Path;
 
 class ParseCommand extends Command
 {
     protected static $defaultName = 'app:parse';
 
+    protected $parameterBag;
+
+    public function __construct(ParameterBagInterface $parameterBag)
+    {
+        parent::__construct();
+        $this->parameterBag = $parameterBag;
+    }
+
     protected function configure()
     {
-        $this
-            ->setDescription('Parse the sample YAML file')
-        ;
+        $this->setDescription('Parse the sample YAML file');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
+        $data = Yaml::parseFile(Path::join($this->parameterBag->get('kernel.project_dir'), 'sample.yaml'));
 
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
+        $checklist_name = array_key_first($data);
+        $checklist_items = array_shift($data);
+
+        $ret = [];
+        foreach ($checklist_items as $name => $values) {
+            $section = new Section($name);
+            dump($section);
+            $this->walkItem($section, $values);
         }
 
-        if ($input->getOption('option1')) {
-            // ...
-        }
-
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
-
+//        dump($data);
         return 0;
+    }
+
+    /**
+     * @param SimpleItem $item
+     * @param            $newValues
+     *
+     * @throws Exception
+     */
+    private function walkItem(SimpleItem $item, $newValues): void
+    {
+        if (is_array($newValues)) {
+            if ($item instanceof Section) {
+                $this->walkItemSection($item, $newValues);
+            } else {
+                throw new RuntimeException('Unknown item type for array walk: ' . get_class($item));
+            }
+        }
+
+        if(is_string($newValues)){
+
+        }
+
+        foreach ($newValues as $k => $v) {
+            if (is_string($v)) {
+
+            }
+        }
+        dump($values);
+    }
+
+    private function walkItemSection(Section $item, array $newValues)
+    {
+        foreach($newValues as $k => $v){
+
+        }
     }
 }
