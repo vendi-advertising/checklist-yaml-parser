@@ -1,0 +1,47 @@
+Web Site Launch:
+  Content:
+    - Spelling, grammar, facts and formatting checked
+    -
+      text: Contact methods accurate
+      type: sublist
+      items:
+        - Phone numbers
+        - Email addresses
+        - Physical addresses
+    -
+      text: Social/sharing accurate
+      type: sublist
+      items:
+        - Facebook
+        - Myspace
+        - LinkedIn
+        - YouTube
+        - Google+
+        - Twitter
+        - Flickr
+        - Pinterest
+        - Instagram
+    - All pages have titles
+    -
+      text: Common pages exist
+      type: sublist
+      items:
+        - Privacy Policy
+        - Contact
+        - Accessibility
+    - Page metadata setup
+    - Images have appropriate alt text
+    -
+      text: Error pages created and serving correctly
+      type: grouped-sublist
+      groups:
+        Required:
+          - 404 - Not Found
+        Encouraged:
+          - 401 - Unauthorized
+          - 403 - Forbidden
+          - 500 - Internal Server Error
+        Optional:
+          - 418 - I'm a teapot
+    - Favicons setup
+    - Search works as expected
