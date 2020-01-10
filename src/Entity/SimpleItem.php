@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-class SimpleItem
+class SimpleItem implements ItemInterface
 {
     public string $displayText;
 
@@ -11,4 +11,13 @@ class SimpleItem
         $this->displayText = $displayText;
     }
 
+    final public function getDisplayText(): string
+    {
+        return $this->displayText;
+    }
+
+    public function getItemType(): string
+    {
+        return self::ITEM_TYPE_SIMPLE;
+    }
 }

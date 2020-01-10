@@ -34,7 +34,7 @@ Web Site Launch:
     -
       text: Error pages created and serving correctly
       type: grouped-sublist
-      groups:
+      items:
         Required:
           - 404 - Not Found
         Encouraged:
