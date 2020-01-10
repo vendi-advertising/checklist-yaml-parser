@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-abstract class AbstractItemCollection extends SimpleItem implements ItemCollectionInterface
+abstract class AbstractItemCollection extends AbstractItem implements ItemCollectionInterface
 {
     protected array $items = [];
 

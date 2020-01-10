@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-final class Checklist extends GroupedSublistItem
+final class Checklist extends AbstractItemCollection
 {
-    public function getItemType(): string
+    public function __construct(string $displayText)
     {
-        return self::ITEM_TYPE_CHECKLIST;
+        parent::__construct($displayText, self::ITEM_TYPE_CHECKLIST);
     }
 }

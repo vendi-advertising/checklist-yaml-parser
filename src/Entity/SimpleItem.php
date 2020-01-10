@@ -2,22 +2,10 @@
 
 namespace App\Entity;
 
-class SimpleItem implements ItemInterface
+final class SimpleItem extends AbstractItem
 {
-    public string $displayText;
-
     public function __construct(string $displayText)
     {
-        $this->displayText = $displayText;
-    }
-
-    final public function getDisplayText(): string
-    {
-        return $this->displayText;
-    }
-
-    public function getItemType(): string
-    {
-        return self::ITEM_TYPE_SIMPLE;
+        parent::__construct($displayText, self::ITEM_TYPE_SIMPLE);
     }
 }

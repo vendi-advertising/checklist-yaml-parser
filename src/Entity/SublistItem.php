@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-class SublistItem extends AbstractItemCollection
+final class SublistItem extends AbstractItemCollection
 {
-    public function getItemType(): string
+    public function __construct(string $displayText)
     {
-        return self::ITEM_TYPE_SUBLIST;
+        parent::__construct($displayText, self::ITEM_TYPE_SUBLIST);
     }
 }
