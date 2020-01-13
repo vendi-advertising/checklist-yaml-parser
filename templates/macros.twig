@@ -1,15 +1,52 @@
-{% macro walk_item(item, depth) %}
-    {% if item.itemType == 'simple' %}
+{% macro walk_item(item, depth, key) %}
+    {% import _self as macros %}
+    {% if item.itemType == constant('App\\Entity\\ItemInterface::ITEM_TYPE_CHECKLIST') %}
+        <h1>{{ item.displayText }}</h1>
+        {% for key, items in item.items %}
+            {{ macros.walk_item(items, depth + 1, key) }}
+        {% endfor %}
+    {% elseif item.itemType == constant('App\\Entity\\ItemInterface::ITEM_TYPE_SECTION') %}
+        <div>
+            <h2>{{ item.displayText }}</h2>
+            <ul>
+                {% for key, items in item.items %}
+                    {{ macros.walk_item(items, depth + 1, key) }}
+                {% endfor %}
+            </ul>
+        </div>
+    {% elseif item.itemType == constant('App\\Entity\\ItemInterface::ITEM_TYPE_SIMPLE') %}
         <li>
             <label>
                 <input type="checkbox"/>
                 {{ item.displayText }}
             </label>
         </li>
-    {% else %}
-        <ul>
-            {% for key, items in item.items %}
-            {% endfor %}
-        </ul>
+    {% elseif item.itemType == constant('App\\Entity\\ItemInterface::ITEM_TYPE_SUBLIST') %}
+        <li>
+            {{ item.displayText }}
+            <ul>
+                {% for key, items in item.items %}
+                    {{ macros.walk_item(items, depth + 1, key) }}
+                {% endfor %}
+            </ul>
+        </li>
+    {% elseif item.itemType == constant('App\\Entity\\ItemInterface::ITEM_TYPE_GROUP_SUBLIST') %}
+        <li>
+            {{ item.displayText }}
+            <ul>
+                {% for key, items in item.items %}
+                    <li>
+                        {{ key }}
+                        {# I'm not 100% positive this is correct, I'm not sure it would work #}
+                        {# with a grouped list of grouped lists, but we'll cross that bridge later. #}
+                        <ul>
+                            {% for subitem in items %}
+                                {{ macros.walk_item(subitem, depth + 1) }}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
     {% endif %}
 {% endmacro %}
