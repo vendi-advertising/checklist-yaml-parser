@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% import "macros.twig" as macros %}
+
+{% block body %}
+
+    <h1>{{ checklist.displayText }}</h1>
+
+    {% for section in checklist.items %}
+        <div class="checklist-section">
+            <h2>{{ section.displayText }}</h2>
+
+            {#            {% for item in section.items %}#}
+            {{ macros.walk_item(section, 1) }}
+            {#            {% endfor %}#}
+        </div>
+    {% endfor %}
+
+{% endblock %}

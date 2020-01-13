@@ -1,0 +1,15 @@
+{% macro walk_item(item, depth) %}
+    {% if item.itemType == 'simple' %}
+        <li>
+            <label>
+                <input type="checkbox"/>
+                {{ item.displayText }}
+            </label>
+        </li>
+    {% else %}
+        <ul>
+            {% for key, items in item.items %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}

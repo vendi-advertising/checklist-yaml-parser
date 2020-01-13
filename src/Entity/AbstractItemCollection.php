@@ -6,6 +6,9 @@ abstract class AbstractItemCollection extends AbstractItem implements ItemCollec
 {
     protected array $items = [];
 
+    /**
+     * @return ItemInterface[]
+     */
     final public function getItems(): array
     {
         return $this->items;
