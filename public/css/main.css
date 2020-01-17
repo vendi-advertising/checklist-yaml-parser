@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:400,700&display=swap');
+
+:root {
+    --color-brand-red: #dc0928;
+    --color-brand-blue: #045070;
+    --color-primary-white: #fff;
+    --color-primary-black: #000;
+    --color-primary-grey: #333;
+}
+
+html {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+    margin: 0 auto;
+    max-width: 100rem;
+    width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    padding: 0;
+}
+
+ul,
+li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul ul {
+    margin-left: 2rem;
+}
+
+.section {
+    border: 0.1rem solid var( --color-primary-black );
+}
+
+.section h2 {
+    background-color: var( --color-brand-red );
+    color: var( --color-primary-white );
+    margin: 0;
+    padding: 1rem;
+}
+
+.section h3 {
+    background-color: var( --color-brand-blue );
+    color: var( --color-primary-white );
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding: 1rem 1rem 1rem 2.5rem;
+}
+
+.section h4 {
+    background-color: var( --color-primary-grey );
+    color: var( --color-primary-white );
+    margin-left: -4rem;
+    margin-right: -2rem;
+    padding: 1rem 1rem 1rem 5rem;
+}
+
+.section li {
+    border-bottom: 0.1rem solid var( --color-primary-black );
+    padding: 1rem;
+}
+
+.section li > h1,
+.section li > h2,
+.section li > h3,
+.section li > h4,
+.section li > h5,
+.section li > h6 {
+    margin-top: -1rem;
+}
+
+/* The H3 has a border effectively already */
+.section h3 + ul > li {
+    border-bottom: none;
+}
+
+.section li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}

@@ -2,6 +2,10 @@
 
 {% import "macros.twig" as macros %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/main.css" />
+{% endblock %}
+
 {% block body %}
 
     {{ macros.walk_item(checklist, 1) }}

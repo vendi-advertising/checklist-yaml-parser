@@ -1,6 +1,11 @@
 Web Site Launch:
   Content:
     - Spelling, grammar, facts and formatting checked
+    - All pages have titles
+    - Page metadata setup
+    - Images have appropriate alt text
+    - Favicons setup
+    - Search works as expected
     -
       text: Contact methods accurate
       type: sublist
@@ -21,7 +26,6 @@ Web Site Launch:
         - Flickr
         - Pinterest
         - Instagram
-    - All pages have titles
     -
       text: Common pages exist
       type: sublist
@@ -29,8 +33,6 @@ Web Site Launch:
         - Privacy Policy
         - Contact
         - Accessibility
-    - Page metadata setup
-    - Images have appropriate alt text
     -
       text: Error pages created and serving correctly
       type: grouped-sublist
@@ -43,5 +45,3 @@ Web Site Launch:
           - 500 - Internal Server Error
         Optional:
           - 418 - I'm a teapot
-    - Favicons setup
-    - Search works as expected

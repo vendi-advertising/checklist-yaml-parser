@@ -1,3 +1,10 @@
+{% macro checkbox(display_text, has_checkbox) %}
+    {% set id = 'id' ~ random(1, 9999999999) %}
+
+    <label><input type="radio" name="{{ id }}" value="n/a"/>n/a</label>
+    <label><input type="radio" name="{{ id }}" value="done"/>{{ display_text }}</label>
+{% endmacro %}
+
 {% macro walk_item(item, depth, key) %}
     {% import _self as macros %}
     {% if item.itemType == constant('App\\Entity\\ItemInterface::ITEM_TYPE_CHECKLIST') %}
@@ -6,8 +13,8 @@
             {{ macros.walk_item(items, depth + 1, key) }}
         {% endfor %}
     {% elseif item.itemType == constant('App\\Entity\\ItemInterface::ITEM_TYPE_SECTION') %}
-        <div>
-            <h2>{{ item.displayText }}</h2>
+        <div class="section">
+            <h{{ depth }}>{{ item.displayText }}</h{{ depth }}>
             <ul>
                 {% for key, items in item.items %}
                     {{ macros.walk_item(items, depth + 1, key) }}
@@ -16,14 +23,11 @@
         </div>
     {% elseif item.itemType == constant('App\\Entity\\ItemInterface::ITEM_TYPE_SIMPLE') %}
         <li>
-            <label>
-                <input type="checkbox"/>
-                {{ item.displayText }}
-            </label>
+            {{ macros.checkbox(item.displayText) }}
         </li>
     {% elseif item.itemType == constant('App\\Entity\\ItemInterface::ITEM_TYPE_SUBLIST') %}
         <li>
-            {{ item.displayText }}
+            <h{{ depth }}>{{ item.displayText }}</h{{ depth }}>
             <ul>
                 {% for key, items in item.items %}
                     {{ macros.walk_item(items, depth + 1, key) }}
@@ -32,11 +36,12 @@
         </li>
     {% elseif item.itemType == constant('App\\Entity\\ItemInterface::ITEM_TYPE_GROUP_SUBLIST') %}
         <li>
-            {{ item.displayText }}
+            <h{{ depth }}>{{ item.displayText }}</h{{ depth }}>
+            {% set depth = depth + 1 %}
             <ul>
                 {% for key, items in item.items %}
                     <li>
-                        {{ key }}
+                        <h{{ depth }}>{{ key }}</h{{ depth }}>
                         {# I'm not 100% positive this is correct, I'm not sure it would work #}
                         {# with a grouped list of grouped lists, but we'll cross that bridge later. #}
                         <ul>
