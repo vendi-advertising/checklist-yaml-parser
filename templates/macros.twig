@@ -14,7 +14,7 @@
         {% endfor %}
     {% elseif item.itemType == constant('App\\Entity\\ItemInterface::ITEM_TYPE_SECTION') %}
         <div class="section">
-            <h{{ depth }}>{{ item.displayText }}</h{{ depth }}>
+            <h{{ depth }}><span>{{ item.displayText }}</span><span class="percentage" data-role="percentage-complete">0%</span></h{{ depth }}>
             <ul>
                 {% for key, items in item.items %}
                     {{ macros.walk_item(items, depth + 1, key) }}
