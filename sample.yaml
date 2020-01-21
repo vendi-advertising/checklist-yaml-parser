@@ -47,7 +47,6 @@ Web Site Launch:
     - Polyfills for JS loaded
     - All JS files listed for build in the correct order
     - All CSS files listed for build in the correct order
-
   Perf:
    - All pages use W3C compliant HTML and CSS
    - All images optimized

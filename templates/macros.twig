@@ -1,8 +1,8 @@
-{% macro checkbox(display_text, has_checkbox) %}
-    {% set id = 'id' ~ random(1, 9999999999) %}
+{% macro checkbox(item) %}
+    {% set id = 'id_' ~ item.displayTextHash %}
 
     <label><input type="radio" name="{{ id }}" value="n/a"/>n/a</label>
-    <label><input type="radio" name="{{ id }}" value="done"/>{{ display_text }}</label>
+    <label><input type="radio" name="{{ id }}" value="done"/>{{ item.displayText }}</label>
 {% endmacro %}
 
 {% macro walk_item(item, depth, key) %}
@@ -23,7 +23,7 @@
         </div>
     {% elseif item.itemType == constant('App\\Entity\\ItemInterface::ITEM_TYPE_SIMPLE') %}
         <li>
-            {{ macros.checkbox(item.displayText) }}
+            {{ macros.checkbox(item) }}
         </li>
     {% elseif item.itemType == constant('App\\Entity\\ItemInterface::ITEM_TYPE_SUBLIST') %}
         <li>

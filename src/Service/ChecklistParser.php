@@ -17,61 +17,60 @@ use Webmozart\PathUtil\Path;
 
 final class ChecklistParser
 {
-    protected ParameterBagInterface $parameterBag;
+	protected ParameterBagInterface $parameterBag;
 
-    public function __construct(ParameterBagInterface $parameterBag)
-    {
-        $this->parameterBag = $parameterBag;
-    }
+	public function __construct(ParameterBagInterface $parameterBag)
+	{
+		$this->parameterBag = $parameterBag;
+	}
 
-    /**
-     * @param string $filename
-     *
-     * @return Checklist
-     * @throws ArrayMissingRequiredKeyException
-     * @throws InvalidItemTypeException
-     */
-    public function parseFileFromRoot(string $filename): Checklist
-    {
-        $data = Yaml::parseFile(Path::join($this->parameterBag->get('kernel.project_dir'), $filename));
+	/**
+	 * @param string $filename
+	 *
+	 * @return Checklist
+	 * @throws ArrayMissingRequiredKeyException
+	 * @throws InvalidItemTypeException
+	 */
+	public function parseFileFromRoot(string $filename): Checklist
+	{
+		$data = Yaml::parseFile(Path::join($this->parameterBag->get('kernel.project_dir'), $filename));
 
-        $checklist_name = array_key_first($data);
-        $checklist_items = array_shift($data);
+		$checklist_name = array_key_first($data);
+		$checklist_items = array_shift($data);
 
-        if (!is_array($checklist_items)) {
-            throw new InvalidItemTypeException(sprintf('An item of type %1$s was encountered where an array was expected', gettype($checklist_items)));
-        }
+		if (!is_array($checklist_items)) {
+			throw new InvalidItemTypeException(sprintf('An item of type %1$s was encountered where an array was expected', gettype($checklist_items)));
+		}
 
-        $checklist = new Checklist($checklist_name);
-        $this->walkItem($checklist, $checklist_items);
+		$checklist = new Checklist($checklist_name);
+		$this->walkItem($checklist, $checklist_items);
 
-        return $checklist;
-    }
+		return $checklist;
+	}
 
-    /**
-     * @param ItemCollectionInterface $currentItem
-     * @param mixed                   $newValues
-     *
-     * @throws ArrayMissingRequiredKeyException
-     * @throws InvalidItemTypeException
-     */
-    private function walkItem(ItemCollectionInterface $currentItem, array $newValues): void
-    {
-        foreach ($newValues as $k => $v) {
-            switch ($currentItem->getItemType()) {
+	/**
+	 * @param ItemCollectionInterface $currentItem
+	 * @param mixed                   $newValues
+	 *
+	 * @throws ArrayMissingRequiredKeyException
+	 * @throws InvalidItemTypeException
+	 */
+	private function walkItem(ItemCollectionInterface $currentItem, array $newValues): void
+	{
+		foreach ($newValues as $k => $v) {
+			switch ($currentItem->getItemType()) {
 
-                // Sections are really just a special-case for GroupSubList,
-                // however because they exist at the root level they are used
-                // to break things up more.
-                // TODO: See if Checklist can be merged with GroupSubList
-                case ItemCollectionInterface::ITEM_TYPE_CHECKLIST:
-                    foreach ($newValues as $subK => $subV) {
-                        $section = new Section($subK);
-                        $this->walkItem($section, $subV);
-                        $currentItem->addItem($section);
-                    }
-                    break;
+				// Sections are really just a special-case for GroupSubList,
+				// however because they exist at the root level they are used
+				// to break things up more.
+				// TODO: See if Checklist can be merged with GroupSubList
+				case ItemCollectionInterface::ITEM_TYPE_CHECKLIST:
+					$section = new Section($k);
+					$this->walkItem($section, $v);
+					$currentItem->addItem($section);
+					break;
 
+				//This code might not work
                 case ItemCollectionInterface::ITEM_TYPE_GROUP_SUBLIST:
                     foreach ($v as $subV) {
                         $this->handleCollectionOrStringDuringWalk($currentItem, $subV, $k);
@@ -81,58 +80,59 @@ final class ChecklistParser
                 default:
                     $this->handleCollectionOrStringDuringWalk($currentItem, $v);
                     break;
-            }
-        }
+			}
+//            break;
+		}
 
-    }
+	}
 
-    /**
-     * @param ItemCollectionInterface $currentItem
-     * @param                         $v
-     * @param string|null             $g
-     *
-     * @throws InvalidItemTypeException
-     * @throws ArrayMissingRequiredKeyException
-     */
-    private function handleCollectionOrStringDuringWalk(ItemCollectionInterface $currentItem, $v, string $g = null): void
-    {
-        if (is_scalar($v)) {
-            $currentItem->addItem(new SimpleItem($v), $g);
-            return;
-        }
+	/**
+	 * @param ItemCollectionInterface $currentItem
+	 * @param                         $v
+	 * @param string|null             $g
+	 *
+	 * @throws InvalidItemTypeException
+	 * @throws ArrayMissingRequiredKeyException
+	 */
+	private function handleCollectionOrStringDuringWalk(ItemCollectionInterface $currentItem, $v, string $g = null): void
+	{
+		if (is_scalar($v)) {
+			$currentItem->addItem(new SimpleItem($v), $g);
+			return;
+		}
 
-        if (!is_array($v)) {
-            throw new InvalidItemTypeException(sprintf('An item of type %1$s was encountered where an array was expected', gettype($v)));
-        }
+		if (!is_array($v)) {
+			throw new InvalidItemTypeException(sprintf('An item of type %1$s was encountered where an array was expected', gettype($v)));
+		}
 
-        $required = ['text', 'items'];
-        foreach ($required as $r) {
-            if (!array_key_exists($r, $v)) {
-                throw new ArrayMissingRequiredKeyException($r);
-            }
-        }
+		$required = ['text', 'items'];
+		foreach ($required as $r) {
+			if (!array_key_exists($r, $v)) {
+				throw new ArrayMissingRequiredKeyException($r);
+			}
+		}
 
-        $type = $v['type'] ?? ItemInterface::ITEM_TYPE_SUBLIST;
-        $text = $v['text'];
-        $items = $v['items'];
+		$type = $v['type'] ?? ItemInterface::ITEM_TYPE_SUBLIST;
+		$text = $v['text'];
+		$items = $v['items'];
 
-        /* @var ItemCollectionInterface $c */
-        $c = null;
+		/* @var ItemCollectionInterface $c */
+		$c = null;
 
-        switch ($type) {
-            case ItemInterface::ITEM_TYPE_SUBLIST:
-                $c = new SublistItem($text);
-                break;
+		switch ($type) {
+			case ItemInterface::ITEM_TYPE_SUBLIST:
+				$c = new SublistItem($text);
+				break;
 
-            case ItemInterface::ITEM_TYPE_GROUP_SUBLIST:
-                $c = new GroupedSublistItem($text);
-                break;
+			case ItemInterface::ITEM_TYPE_GROUP_SUBLIST:
+				$c = new GroupedSublistItem($text);
+				break;
 
-            default:
-                throw new InvalidItemTypeException(sprintf('An unknown collection type was encountered: %1$s', $type));
-        }
+			default:
+				throw new InvalidItemTypeException(sprintf('An unknown collection type was encountered: %1$s', $type));
+		}
 
-        $this->walkItem($c, $items);
-        $currentItem->addItem($c);
-    }
+		$this->walkItem($c, $items);
+		$currentItem->addItem($c);
+	}
 }

@@ -3,9 +3,15 @@
 :root {
     --color-brand-red: #dc0928;
     --color-brand-blue: #045070;
+
+    --color-primary-grey8: #888;
+    --color-primary-green: #080;
     --color-primary-white: #fff;
     --color-primary-black: #000;
     --color-primary-grey: #333;
+
+    --color-done: var( --color-primary-green );
+    --color-na: var( --color-primary-grey8 );
 }
 
 html {
@@ -71,7 +77,20 @@ ul ul {
 
 .section li {
     border-bottom: 0.1rem solid var( --color-primary-black );
+    border-left: 2rem solid transparent;
     padding: 1rem;
+}
+
+.section li.na {
+    border-left-color: var( --color-na );
+}
+
+.section li.na > * {
+    opacity: 0.4;
+}
+
+.section li.done {
+    border-left-color: var( --color-done );
 }
 
 .section li > h1,
