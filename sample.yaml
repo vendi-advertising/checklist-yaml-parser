@@ -6,42 +6,55 @@ Web Site Launch:
     - Images have appropriate alt text
     - Favicons setup
     - Search works as expected
-    -
-      text: Contact methods accurate
-      type: sublist
-      items:
-        - Phone numbers
-        - Email addresses
-        - Physical addresses
-    -
-      text: Social/sharing accurate
-      type: sublist
-      items:
-        - Facebook
-        - Myspace
-        - LinkedIn
-        - YouTube
-        - Google+
-        - Twitter
-        - Flickr
-        - Pinterest
-        - Instagram
-    -
-      text: Common pages exist
-      type: sublist
-      items:
-        - Privacy Policy
-        - Contact
-        - Accessibility
-    -
-      text: Error pages created and serving correctly
-      type: grouped-sublist
-      items:
-        Required:
-          - 404 - Not Found
-        Encouraged:
-          - 401 - Unauthorized
-          - 403 - Forbidden
-          - 500 - Internal Server Error
-        Optional:
-          - 418 - I'm a teapot
+  Contact methods accurate:
+    - Phone numbers
+    - Email addresses
+    - Physical addresses
+  Social/sharing accurate:
+    - Facebook
+    - Myspace
+    - LinkedIn
+    - YouTube
+    - Google+
+    - Twitter
+    - Flickr
+    - Pinterest
+    - Instagram
+  Common pages exist:
+    - Privacy Policy
+    - Contact
+    - Accessibility
+  Error pages created and serving correctly:
+    - 404 - Not Found
+    - 401 - Unauthorized
+    - 403 - Forbidden
+    - 500 - Internal Server Error
+    - 418 - I'm a teapot
+  Forms:
+    - Admin notification correct and working
+    - User notification correct and working
+    - Form FROM email address approved
+    - CMS can send from approved email address to all known recipients (SPF/DKIM/etc.)
+    - All forms have unique "thank you" pages
+  Testing:
+    - List of supported browsers determined by analytics and/or client
+    - All primary browsers must match feature-to-feature and UI-to-UI across all devices
+    - All legacy browsers must function as similiar as possible to primary with potentially degraded UI/UX
+    - Responsive testing for primary browsers is complete
+    - Mobile testing for primary browsers is complete
+  CSS/JS building:
+    - Build script and tools are setup including yarn, npm, node, webpack
+    - Polyfills for JS loaded
+    - All JS files listed for build in the correct order
+    - All CSS files listed for build in the correct order
+
+  Perf:
+   - All pages use W3C compliant HTML and CSS
+   - All images optimized
+   - CSS minified, aggregated and compressed
+   - JS minified, aggregated and compressed
+   - All pages have very low HTTP request count
+   - All pages with assets have very low byte size
+   - Page speed audit run on major pages
+   - External assets avoided including fonts, JS, CSS, images, iframes
+   - No console errors

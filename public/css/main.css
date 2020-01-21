@@ -43,6 +43,7 @@ ul ul {
 
 .section {
     border: 0.1rem solid var( --color-primary-black );
+    margin-bottom: 2rem;
 }
 
 .section h2 {
@@ -89,5 +90,4 @@ ul ul {
 
 .section li:last-child {
     border-bottom: none;
-    padding-bottom: 0;
 }
