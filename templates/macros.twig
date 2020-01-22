@@ -1,6 +1,8 @@
 {% macro checkbox(item) %}
     {% set id = 'id_' ~ item.displayTextHash %}
-
+    {% set id_nope = 'id_nope_' ~ item.displayTextHash %}
+    <label class="clicker-for-nope" for="{{ id_nope }}">X</label>
+    <label class="container-for-nope"><input type="radio" name="{{ id }}" id="{{ id_nope }}" value="nope" checked/>Not done</label>
     <label><input type="radio" name="{{ id }}" value="n/a"/>n/a</label>
     <label><input type="radio" name="{{ id }}" value="done"/>{{ item.displayText }}</label>
 {% endmacro %}

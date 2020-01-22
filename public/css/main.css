@@ -92,6 +92,32 @@ ul ul {
     border-bottom: none;
 }
 
+.section .clicker-for-nope {
+    color: transparent;
+    display: inline-block;
+    margin-left: -3rem;
+    text-align: center;
+    width: 2rem;
+}
+
+.section .container-for-nope {
+    display: none;
+}
+
+.section li.na .clicker-for-nope {
+    background-color: var(--color-na);
+}
+
+.section li.done .clicker-for-nope {
+    background-color: var(--color-done);
+}
+
+.section li.na .clicker-for-nope:hover,
+.section li.done .clicker-for-nope:hover {
+    color: var(--color-primary-white);
+    cursor: pointer;
+}
+
 
 @media (max-width: 100em) {
     body {

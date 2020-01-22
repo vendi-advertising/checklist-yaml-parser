@@ -5,23 +5,28 @@
 
         MAGIC_CSS_CLASS_FOR_NA = 'na',
         MAGIC_CSS_CLASS_FOR_DONE = 'done',
-        MAGIC_CSS_CLASS_FOR_NOTHING = '',
+        MAGIC_CSS_CLASS_FOR_NOPE = 'nope',
 
         MAGIC_VALUE_FOR_NA = 'n/a',
         MAGIC_VALUE_FOR_DONE = 'done',
+        MAGIC_VALUE_FOR_NOPE = 'nope',
 
         getRowCssClass = ( item ) => {
-            return Array.prototype.slice.call( document.querySelectorAll( `input[type=radio][name=${item.name}]` ) )
-                        .reduce(
-                            ( x, obj ) => {
-                                if ( obj.checked ) {
-                                    return obj.value === MAGIC_VALUE_FOR_NA ? MAGIC_CSS_CLASS_FOR_NA : MAGIC_CSS_CLASS_FOR_DONE;
-                                }
 
-                                return x;
-                            },
-                            MAGIC_CSS_CLASS_FOR_NOTHING
-                        );
+            const
+                done = document.querySelector( `input[type=radio][name=${item.name}][value="${MAGIC_VALUE_FOR_DONE}"]` ),
+                na = document.querySelector( `input[type=radio][name=${item.name}][value="${MAGIC_VALUE_FOR_NA}"]` )
+            ;
+
+            if ( done.checked ) {
+                return MAGIC_CSS_CLASS_FOR_DONE;
+            }
+
+            if ( na.checked ) {
+                return MAGIC_CSS_CLASS_FOR_NA;
+            }
+
+            return MAGIC_CSS_CLASS_FOR_NOPE;
         },
 
         updatePercentage = ( item ) => {
@@ -95,6 +100,7 @@
 
                                     parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_DONE );
                                     parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_NA );
+                                    parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_NOPE );
                                     parentRow.classList.add( rowCssClass );
 
                                     updatePercentage( item );
