@@ -85,6 +85,9 @@
         },
 
         load = () => {
+
+            // Handle the change event for all radio buttons (assumes there's no other
+            // radio buttons except in sections).
             document
                 .querySelectorAll( 'input[type=radio]' )
                 .forEach(
