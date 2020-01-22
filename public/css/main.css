@@ -91,3 +91,13 @@ ul ul {
 .section li:last-child {
     border-bottom: none;
 }
+
+
+@media (max-width: 100em) {
+    body {
+        box-sizing: border-box;
+        font-size: 2rem;
+        padding: 2rem;
+        width: 100%;
+    }
+}
