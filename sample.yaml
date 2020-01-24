@@ -6,16 +6,18 @@ Web Site Launch:
     - Images have appropriate alt text
     - Favicons setup
     - Search works as expected
+  Analytics:
+    - Google Analytics setup
+    - GA/GTM installed
+    - Goals in GA setup
   Contact methods accurate:
     - Phone numbers
     - Email addresses
     - Physical addresses
   Social/sharing accurate:
     - Facebook
-    - Myspace
     - LinkedIn
     - YouTube
-    - Google+
     - Twitter
     - Flickr
     - Pinterest
@@ -25,11 +27,10 @@ Web Site Launch:
     - Contact
     - Accessibility
   Error pages created and serving correctly:
-    - 404 - Not Found
     - 401 - Unauthorized
     - 403 - Forbidden
-    - 500 - Internal Server Error
-    - 418 - I'm a teapot
+    - 404 - Not Found
+    - 410 - Gone
   Forms:
     - Admin notification correct and working
     - User notification correct and working
@@ -47,13 +48,46 @@ Web Site Launch:
     - Polyfills for JS loaded
     - All JS files listed for build in the correct order
     - All CSS files listed for build in the correct order
-  Perf:
-   - All pages use W3C compliant HTML and CSS
-   - All images optimized
-   - CSS minified, aggregated and compressed
-   - JS minified, aggregated and compressed
-   - All pages have very low HTTP request count
-   - All pages with assets have very low byte size
-   - Page speed audit run on major pages
-   - External assets avoided including fonts, JS, CSS, images, iframes
-   - No console errors
+  Performance:
+    - All pages use W3C compliant HTML and CSS
+    - All images optimized
+    - CSS minified, aggregated and compressed
+    - JS minified, aggregated and compressed
+    - All pages have very low HTTP request count
+    - All pages with assets have very low byte size
+    - Page speed audit run on major pages
+    - External assets avoided including fonts, JS, CSS, images, iframes
+    - No console errors
+  Security:
+    - TLS cert for local termination setup
+    - Local cert auto-renew setup and tested
+    - Cloudflare TLS termination setup
+  Hosting:
+    - Hosting platform setup
+    - Hosting configuration updated and modern
+    - Server timezone correct
+    - Redis setup
+  Domains/DNS:
+    - Canonical fully-qualified domain name chosen
+    - Vanity and/or subdomain redirects in place
+    - Private DNS issues investigated with client
+  Email:
+    - Server is able to send email in general
+    - Server can send administrative emails
+    - Server has a valid hostname for email
+    - Web application has an SMTP override
+    - SPF records are in place
+    - DKIM records are in place
+    - DMARC records are in place
+  CMS:
+    - All plugins/modules updated
+    - All core updates applied
+  WordPress:
+    - Site Title and Tagline accurate
+    - Timezone correct
+    - "Plugin installed: Better WordPress Minify"
+    - "Plugin installed: Classic Editor"
+    - "Plugin installed: Relevanssi"
+    - "Plugin installed: Redis"
+    - "Plugin installed: Stream"
+    - "Plugin installed: Yoast"
