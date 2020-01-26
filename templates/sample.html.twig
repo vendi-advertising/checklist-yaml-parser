@@ -1,15 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% import "macros.twig" as macros %}
-
 {% block stylesheets %}
     <link rel="stylesheet" href="/css/main.css?v2"/>
 {% endblock %}
 
 {% block body %}
-    {{ macros.walk_item(checklist, 1) }}
+    <h1>{{ checklist.name }}</h1>
+    {% for section in checklist.sections %}
+        <div class="section">
+            <h2><span>{{ section.name }}</span><span class="percentage" data-role="percentage-complete">0%</span></h2>
+            <ul>
+                {% for item in section.items %}
+                    <li>
+                        {% set id = 'id_' ~ item.hash %}
+                        {% set id_nope = 'id_nope_' ~ item.hash %}
+                        <label class="clicker-for-nope" for="{{ id_nope }}">X</label>
+                        <label class="container-for-nope"><input type="radio" name="{{ id }}" id="{{ id_nope }}"
+                                                                 value="nope" checked/>Not done</label>
+                        <label><input type="radio" name="{{ id }}" value="n/a"/>n/a</label>
+                        <label><input type="radio" name="{{ id }}" value="done"/>{{ item.name }}</label>
+                    </li>
+                {% endfor %}
+
+            </ul>
+        </div>
+    {% endfor %}
+
 {% endblock %}
 
 {% block javascripts %}
- <script src="/js/checklist.js?v2"></script>
+    <script src="/js/checklist.js?v2"></script>
 {% endblock %}

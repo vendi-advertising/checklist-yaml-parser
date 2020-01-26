@@ -2,10 +2,36 @@
 
 namespace App\Entity;
 
-final class Checklist extends AbstractItemCollection
+final class Checklist
 {
-    public function __construct(string $displayText)
-    {
-        parent::__construct($displayText, self::ITEM_TYPE_CHECKLIST);
-    }
+	private string $name;
+
+	/* @var Section[] */
+	private array $sections = [];
+
+	public function __construct(string $name)
+	{
+		$this->name = $name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getName(): string
+	{
+		return $this->name;
+	}
+
+	/**
+	 * @return Section[]
+	 */
+	public function getSections(): array
+	{
+		return $this->sections;
+	}
+
+	public function addSection(Section $section): void
+	{
+		$this->sections[] = $section;
+	}
 }

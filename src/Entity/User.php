@@ -1,7 +1,11 @@
 <?php
 
+/** @noinspection PhpUnused */
+
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -15,17 +19,17 @@ class User implements UserInterface
 	 * @ORM\GeneratedValue()
 	 * @ORM\Column(type="integer")
 	 */
-	private $id;
+	private int $id;
 
 	/**
 	 * @ORM\Column(type="string", length=255)
 	 */
-	private $email;
+	private string $email;
 
 	/**
 	 * @ORM\Column(type="json")
 	 */
-	private $roles = [];
+	private array $roles = [];
 
 	public function getId(): ?int
 	{
@@ -47,12 +51,22 @@ class User implements UserInterface
 	/**
 	 * @ORM\Column(type="string", length=255)
 	 */
-	private $password;
+	private string $password;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\ChecklistSession", mappedBy="createdBy")
+	 */
+	private Collection $checklistSessions;
+
+	public function __construct()
+	{
+		$this->checklistSessions = new ArrayCollection();
+	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getRoles()
+	public function getRoles(): array
 	{
 		$roles = $this->roles;
 		// guarantee every user at least has ROLE_USER
@@ -61,10 +75,15 @@ class User implements UserInterface
 		return array_unique($roles);
 	}
 
+	public function addRole(string $role): void
+	{
+		$this->roles[] = $role;
+	}
+
 	/**
 	 * @inheritDoc
 	 */
-	public function getPassword()
+	public function getPassword(): string
 	{
 		return $this->password;
 	}
@@ -80,7 +99,7 @@ class User implements UserInterface
 	/**
 	 * @inheritDoc
 	 */
-	public function getUsername()
+	public function getUsername(): string
 	{
 		return $this->getEmail();
 	}
@@ -88,13 +107,44 @@ class User implements UserInterface
 	/**
 	 * @inheritDoc
 	 */
-	public function eraseCredentials()
+	public function eraseCredentials(): void
 	{
 		// TODO: Implement eraseCredentials() method.
 	}
 
-	public function setPassword(string $password)
+	public function setPassword(string $password): void
 	{
 		$this->password = $password;
+	}
+
+	/**
+	 * @return Collection|ChecklistSession[]
+	 */
+	public function getChecklistSessions(): Collection
+	{
+		return $this->checklistSessions;
+	}
+
+	public function addChecklistSession(ChecklistSession $checklistSession): self
+	{
+		if (!$this->checklistSessions->contains($checklistSession)) {
+			$this->checklistSessions[] = $checklistSession;
+			$checklistSession->setCreatedBy($this);
+		}
+
+		return $this;
+	}
+
+	public function removeChecklistSession(ChecklistSession $checklistSession): self
+	{
+		if ($this->checklistSessions->contains($checklistSession)) {
+			$this->checklistSessions->removeElement($checklistSession);
+			// set the owning side to null (unless already changed)
+			if ($checklistSession->getCreatedBy() === $this) {
+				$checklistSession->setCreatedBy(null);
+			}
+		}
+
+		return $this;
 	}
 }
