@@ -34,4 +34,17 @@ final class Checklist
 	{
 		$this->sections[] = $section;
 	}
+
+	public function validate(): void
+	{
+		$hashes = [];
+		foreach ($this->getSections() as $section) {
+			foreach ($section->getItems() as $item) {
+				if (in_array($item->getHash(), $hashes, true)) {
+					throw new \RuntimeException(sprintf('Checklist has duplicate item: %1$s', $item->getName()));
+				}
+				$hashes[] = $item->getHash();
+			}
+		}
+	}
 }

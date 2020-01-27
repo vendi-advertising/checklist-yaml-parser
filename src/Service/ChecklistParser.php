@@ -44,6 +44,7 @@ final class ChecklistParser
 			}
 			$checklist->addSection($section);
 		}
+		$checklist->validate();
 
 		return $checklist;
 	}
