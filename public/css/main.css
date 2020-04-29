@@ -118,6 +118,17 @@ ul ul {
     cursor: pointer;
 }
 
+.all-checklists-nav,
+.all-checklists-nav li {
+    list-style-type: none;
+    margin: 0 0 2rem 0;
+    padding: 0;
+}
+
+.all-checklists-nav li {
+    display: inline-block;
+}
+
 
 @media (max-width: 100em) {
     body {

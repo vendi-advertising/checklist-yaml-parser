@@ -5,6 +5,10 @@
 {% endblock %}
 
 {% block body %}
+    <ul class="all-checklists-nav">
+        <li><a href="{{ path('website-launch') }}">Website Launch</a></li>
+        <li><a href="{{ path('website-onboarding') }}">Website Onboarding</a></li>
+    </ul>
     <h1>{{ checklist.name }}</h1>
     {% for section in checklist.sections %}
         <div class="section">
@@ -18,7 +22,15 @@
                         <label class="container-for-nope"><input type="radio" name="{{ id }}" id="{{ id_nope }}"
                                                                  value="nope" checked/>Not done</label>
                         <label><input type="radio" name="{{ id }}" value="n/a"/>n/a</label>
-                        <label><input type="radio" name="{{ id }}" value="done"/>{{ item.name }}</label>
+                        <label>
+                            <input type="radio" name="{{ id }}" value="done"/>
+                            {{ item.name }}
+                            {% if item.isHyperlink() %}
+                                <a href="{{ item.name }}" target="_blank" rel="noreferrer nofollow noopener">
+                                    External Link
+                                </a>
+                            {% endif %}
+                        </label>
                     </li>
                 {% endfor %}
 

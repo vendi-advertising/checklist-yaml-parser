@@ -4,27 +4,27 @@ Website Onboarding:
     - Responsive
     - Cognitive
     - Semantic HTML and/or ARIA
-  Errors
+  Errors:
     - JavaScript Console
     - Redirects (301/302)
     - Missing pages (404/410)
     - Error pages (4xx/50x)
-  Site speed reports
+  Site speed reports:
     - https://tools.pingdom.com
     - https://www.webpagetest.org
     - https://developers.google.com/speed/pagespeed/insights/
-  Performance metrics for key pages
+  Performance metrics for key pages:
     - Page speed
     - Content type breakdown
     - Server settings (caching, compression
-  Server settings
+  Server settings:
     - Caching encouraged (ETag, expires, caching directives)
     - HTTP version
     - SSL/TLS
-  Analytics
+  Analytics:
     - Current platform (none/GA/GTM/etc.)
-  Site general information
+  Site general information:
     - CMS with version
     - General module/plugin/library overview
     - Form platform(s) (Gravity/Webform/HubSpot/etc.)
-  
+

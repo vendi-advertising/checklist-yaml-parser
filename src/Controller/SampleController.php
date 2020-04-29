@@ -10,28 +10,46 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SampleController extends AbstractController
 {
-	private ChecklistParser $checklistParser;
+    private ChecklistParser $checklistParser;
 
-	public function __construct(ChecklistParser $checklistParser)
-	{
-		$this->checklistParser = $checklistParser;
-	}
+    public function __construct(ChecklistParser $checklistParser)
+    {
+        $this->checklistParser = $checklistParser;
+    }
 
-	/**
-	 * @Route("/sample", name="sample")
-	 *
-	 * @return Response
-	 * @throws InvalidItemTypeException
-	 */
-	public function index()
-	{
-		$checklist = $this->checklistParser->parseFileFromRoot('./config/checklists/website-launch.yaml');
+    /**
+     * @Route("/website-launch", name="website-launch")
+     *
+     * @return Response
+     * @throws InvalidItemTypeException
+     */
+    public function website_launch(): Response
+    {
+        $checklist = $this->checklistParser->parseFileFromRoot('./config/checklists/website-launch.yaml');
 
-		return $this->render(
-			'sample.html.twig',
-			[
-				'user_first_name' => 'Chris',
-				'checklist' => $checklist,
-			]);
-	}
+        return $this->render(
+            'sample.html.twig',
+            [
+                'user_first_name' => 'Chris',
+                'checklist' => $checklist,
+            ]);
+    }
+
+    /**
+     * @Route("/website-onboarding", name="website-onboarding")
+     *
+     * @return Response
+     * @throws InvalidItemTypeException
+     */
+    public function website_onboarding(): Response
+    {
+        $checklist = $this->checklistParser->parseFileFromRoot('./config/checklists/website-onboarding.yaml');
+
+        return $this->render(
+            'sample.html.twig',
+            [
+                'user_first_name' => 'Chris',
+                'checklist' => $checklist,
+            ]);
+    }
 }
