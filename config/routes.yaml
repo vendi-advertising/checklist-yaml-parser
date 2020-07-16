@@ -1,3 +1,11 @@
 index:
     path: /
     controller: App\Controller\DefaultController::index
+
+checklist_create:
+    path: /checklist/new
+    controller: App\Controller\ChecklistCreateController::new
+
+checklist_create_with_template:
+    path: /checklist/new/{templateId}
+    controller: App\Controller\ChecklistCreateController::new_with_template

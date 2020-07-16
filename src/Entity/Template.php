@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
+use App\Hashing\HashableObject;
 use App\Repository\TemplateRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=TemplateRepository::class)
  */
-class Template
+class Template extends HashableObject
 {
     use UuidAsIdTrait;
 
@@ -44,5 +45,12 @@ class Template
         $this->templateFile = $templateFile;
 
         return $this;
+    }
+
+    public function getHashProperties(): array
+    {
+        return [
+            'id',
+        ];
     }
 }

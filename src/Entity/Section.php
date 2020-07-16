@@ -2,15 +2,19 @@
 
 namespace App\Entity;
 
+use App\Hashing\HashableObject;
+use App\Hashing\ObjectHasher;
+use App\Hashing\ObjectHashingException;
 use App\Repository\SectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonException;
 
 /**
  * @ORM\Entity(repositoryClass=SectionRepository::class)
  */
-class Section
+class Section extends HashableObject
 {
     use SortOrderTrait;
     use UuidAsIdTrait;
@@ -59,6 +63,14 @@ class Section
         $this->checklist = $checklist;
 
         return $this;
+    }
+
+    public function getHashProperties(): array
+    {
+        return [
+            'name',
+            'checklist',
+        ];
     }
 
     /**

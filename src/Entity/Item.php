@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Hashing\HashableObject;
 use App\Repository\ItemRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ItemRepository::class)
  */
-class Item
+class Item extends HashableObject
 {
     use SortOrderTrait;
     use UuidAsIdTrait;
@@ -89,5 +90,12 @@ class Item
         $this->section = $section;
 
         return $this;
+    }
+
+    public function getHashProperties(): array
+    {
+        return [
+            'name',
+        ];
     }
 }

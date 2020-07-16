@@ -6,6 +6,7 @@ use App\Entity\Checklist;
 use App\Entity\Item;
 use App\Entity\Section;
 use App\Entity\SpecialYamlName;
+use App\Entity\Template;
 use App\Exceptions\InvalidItemTypeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -21,6 +22,19 @@ final class ChecklistParser
     }
 
     /**
+     * @param Template $template
+     *
+     * @return Checklist
+     * @throws InvalidItemTypeException
+     */
+    public function parseTemplate(Template $template): Checklist
+    {
+        $ret = $this->parseFileFromRoot('/config/checklists/' . $template->getTemplateFile());
+        $ret->setTemplate($template);
+        return $ret;
+    }
+
+    /**
      * @param string $filename
      *
      * @return Checklist
@@ -30,7 +44,6 @@ final class ChecklistParser
     {
         $data = Yaml::parseFile(Path::join($this->parameterBag->get('kernel.project_dir'), $filename));
 
-//        $checklist_name = array_key_first($data);
         $checklist_items = array_shift($data);
 
         if (!is_array($checklist_items)) {
@@ -54,7 +67,6 @@ final class ChecklistParser
             }
             $checklist->addSection($itemGroup);
         }
-//        $checklist->validate();
 
         return $checklist;
     }

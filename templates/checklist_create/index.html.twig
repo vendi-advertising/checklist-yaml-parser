@@ -21,7 +21,9 @@
         <h1>Select a base template</h1>
         <ul>
             {% for template in templates %}
-                <li><a href="#">{{ template.name }}</a></li>
+                <li>
+                    <a href="{{ url('checklist_create_with_template', {'templateId': template.id }) }}">{{ template.name }}</a>
+                </li>
             {% endfor %}
         </ul>
     </div>

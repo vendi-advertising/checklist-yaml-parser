@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Hashing\HashableObject;
 use App\Repository\ChecklistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ChecklistRepository::class)
  */
-class Checklist
+class Checklist extends HashableObject
 {
     use UuidAsIdTrait;
 
@@ -106,5 +107,12 @@ class Checklist
         }
 
         return $this;
+    }
+
+    public function getHashProperties(): array
+    {
+        return [
+            'template',
+        ];
     }
 }
