@@ -21,10 +21,17 @@ Website Onboarding:
     - Caching encouraged (ETag, expires, caching directives)
     - HTTP version
     - SSL/TLS
+    - Server and component versions (OS, PHP, database, etc.)
   Analytics:
     - Current platform (none/GA/GTM/etc.)
+    - Analysis and report of current traffic by interesting segments
   Site general information:
     - CMS with version
+    - Server access (FTP, cPanel, SSH, etc.)
     - General module/plugin/library overview
     - Form platform(s) (Gravity/Webform/HubSpot/etc.)
-
+  Hosting, Domains and DNS audit:
+    - Where is site hosted
+    - What domain names, including sub-domains, point to the site
+    - Where is DNS hosted for each domain
+    - Who has admin access to hosting, domain management and DNS

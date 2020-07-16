@@ -1,0 +1,34 @@
+checklist:
+    website-launch: Website Launch
+
+section:
+    content:
+        label: Content
+    analytics:
+        label: Analytics
+    contact-methods:
+        label: Contact methods
+    social-sharing:
+        label: Social/sharing
+    common-pages:
+        label: Common pages exist
+    error-pages:
+        label: Error pages created and serving correctly
+    forms:
+        label: Forms
+    testing:
+        label: Testing
+    aseet-building:
+        label: CSS/JS building
+    performance:
+        label: Performance
+    security:
+        label: Security
+    hosting:
+        label: Hosting
+    domains-dns:
+        label: Domains/DNS
+    email:
+        label: Email
+    cms:
+        label: CMS

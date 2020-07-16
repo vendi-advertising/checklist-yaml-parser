@@ -14,17 +14,11 @@ final class Checklist
 		$this->name = $name;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getName(): string
 	{
 		return $this->name;
 	}
 
-	/**
-	 * @return Section[]
-	 */
 	public function getSections(): array
 	{
 		return $this->sections;
