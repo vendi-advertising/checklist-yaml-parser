@@ -4,20 +4,20 @@ namespace App\DataFixtures;
 
 use App\Entity\ChecklistTemplate;
 use App\Entity\User;
+use App\Service\ChecklistParser;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
-    /**
-     * @var UserPasswordEncoderInterface
-     */
     private UserPasswordEncoderInterface $passwordEncoder;
+    private ChecklistParser $checklistParser;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, ChecklistParser $checklistParser)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->checklistParser = $checklistParser;
     }
 
     public function load(ObjectManager $manager): void
@@ -28,7 +28,16 @@ class AppFixtures extends Fixture
         $user->addRole('ROLE_CHECKLIST_CREATOR');
         $manager->persist($user);
 
-        $checklist = (new ChecklistTemplate())->setName('Website Launch')->setTemplateFile('website-launch.yaml');
+        $checklistTemplate = (new ChecklistTemplate())->setName('Website Launch')->setTemplateFile('website-launch.yaml');
+        $manager->persist($checklistTemplate);
+
+        $checklist = $this->checklistParser->parseFileFromRoot(
+            '/config/checklists/' . $checklistTemplate->getTemplateFile()
+        )
+            ->setTemplate($checklistTemplate)
+            ->setDescription('Holmen Cheese')
+            ->setCreatedBy($user);
+
         $manager->persist($checklist);
 
         $manager->flush();

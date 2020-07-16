@@ -2,36 +2,92 @@
 
 namespace App\Entity;
 
-final class ChecklistItem
+use App\Repository\ChecklistItemRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass=ChecklistItemRepository::class)
+ */
+class ChecklistItem
 {
-    private string $name;
+    use SortOrderTrait;
+    use UuidAsIdTrait;
 
-    private string $hash;
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private ?string $name = null;
 
-    public function __construct(string $name)
+    /**
+     * @ORM\OneToMany(targetEntity=ChecklistEntry::class, mappedBy="checklistItem", orphanRemoval=true)
+     */
+    private Collection $checklistEntries;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ChecklistItemGroup::class, inversedBy="items")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $checklistItemGroup;
+
+    public function __construct()
     {
-        $this->name = $name;
+        $this->checklistEntries = new ArrayCollection();
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function isHyperlink(): bool
+    public function setName(string $name): self
     {
-        return 0 === mb_strpos($this->name, 'https://') || 0 === mb_strpos($this->name, 'http://');
+        $this->name = $name;
 
+        return $this;
     }
 
     /**
-     * @return string
+     * @return Collection|ChecklistEntry[]
      */
-    public function getHash(): string
+    public function getChecklistEntries(): Collection
     {
-        if (!isset($this->hash)) {
-            $this->hash = hash('sha256', $this->getName());
+        return $this->checklistEntries;
+    }
+
+    public function addChecklistEntry(ChecklistEntry $checklistEntry): self
+    {
+        if (!$this->checklistEntries->contains($checklistEntry)) {
+            $this->checklistEntries[] = $checklistEntry;
+            $checklistEntry->setChecklistItem($this);
         }
-        return $this->hash;
+
+        return $this;
+    }
+
+    public function removeChecklistEntry(ChecklistEntry $checklistEntry): self
+    {
+        if ($this->checklistEntries->contains($checklistEntry)) {
+            $this->checklistEntries->removeElement($checklistEntry);
+            // set the owning side to null (unless already changed)
+            if ($checklistEntry->getChecklistItem() === $this) {
+                $checklistEntry->setChecklistItem(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getChecklistItemGroup(): ?ChecklistItemGroup
+    {
+        return $this->checklistItemGroup;
+    }
+
+    public function setChecklistItemGroup(?ChecklistItemGroup $checklistItemGroup): self
+    {
+        $this->checklistItemGroup = $checklistItemGroup;
+
+        return $this;
     }
 }

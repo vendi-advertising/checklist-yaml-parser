@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\ChecklistSession;
+use App\Entity\ChecklistItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method ChecklistSession|null find($id, $lockMode = null, $lockVersion = null)
- * @method ChecklistSession|null findOneBy(array $criteria, array $orderBy = null)
- * @method ChecklistSession[]    findAll()
- * @method ChecklistSession[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ChecklistItem|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ChecklistItem|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ChecklistItem[]    findAll()
+ * @method ChecklistItem[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ChecklistSessionRepository extends ServiceEntityRepository
+class ChecklistItemRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ChecklistSession::class);
+        parent::__construct($registry, ChecklistItem::class);
     }
 
     // /**
-    //  * @return ChecklistSession[] Returns an array of ChecklistSession objects
+    //  * @return ChecklistItem[] Returns an array of ChecklistItem objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ChecklistSessionRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?ChecklistSession
+    public function findOneBySomeField($value): ?ChecklistItem
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

@@ -1,0 +1,26 @@
+checklist:
+    id: jfsdfsdkjfl
+    base: djlsdkjfsl
+    maps:
+
+    sections:
+        1:
+            maps
+            fields:
+                1:
+                    entries:
+                        0:
+                            date-time: 2009-01-01 12:30
+                            user: 1
+                            value: na
+                            comments: Gerp
+
+    section:
+
+    1; Content:
+        - 1; Spelling, grammar, facts and formatting checked
+        - 2; All pages have titles
+        - 3; Page metadata setup
+        - 4; Images have appropriate alt text
+        - 5; Favicons setup
+        - 6; Search works as expected

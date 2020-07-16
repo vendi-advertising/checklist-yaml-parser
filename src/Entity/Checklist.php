@@ -2,43 +2,109 @@
 
 namespace App\Entity;
 
-final class Checklist
+use App\Repository\ChecklistRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass=ChecklistRepository::class)
+ */
+class Checklist
 {
-	private string $name;
+    use UuidAsIdTrait;
 
-	/* @var Section[] */
-	private array $sections = [];
+    /**
+     * @ORM\Column(type="string", length=1024)
+     */
+    private ?string $description = null;
 
-	public function __construct(string $name)
-	{
-		$this->name = $name;
-	}
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="checklists")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private ?User $createdBy = null;
 
-	public function getName(): string
-	{
-		return $this->name;
-	}
+    /**
+     * @ORM\ManyToOne(targetEntity=ChecklistTemplate::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private ?ChecklistTemplate $template = null;
 
-	public function getSections(): array
-	{
-		return $this->sections;
-	}
+    /**
+     * @ORM\OneToMany(targetEntity=ChecklistItemGroup::class, mappedBy="checklist", orphanRemoval=true, cascade={"persist"})
+     */
+    private Collection $checklistGroups;
 
-	public function addSection(Section $section): void
-	{
-		$this->sections[] = $section;
-	}
+    public function __construct()
+    {
+        $this->checklistGroups = new ArrayCollection();
+    }
 
-	public function validate(): void
-	{
-		$hashes = [];
-		foreach ($this->getSections() as $section) {
-			foreach ($section->getItems() as $item) {
-				if (in_array($item->getHash(), $hashes, true)) {
-					throw new \RuntimeException(sprintf('Checklist has duplicate item: %1$s', $item->getName()));
-				}
-				$hashes[] = $item->getHash();
-			}
-		}
-	}
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getTemplate(): ?ChecklistTemplate
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(?ChecklistTemplate $template): self
+    {
+        $this->template = $template;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ChecklistItemGroup[]
+     */
+    public function getChecklistGroups(): Collection
+    {
+        return $this->checklistGroups;
+    }
+
+    public function addChecklistGroup(ChecklistItemGroup $checklistGroup): self
+    {
+        if (!$this->checklistGroups->contains($checklistGroup)) {
+            $this->checklistGroups[] = $checklistGroup;
+            $checklistGroup->setChecklist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChecklistGroup(ChecklistItemGroup $checklistGroup): self
+    {
+        if ($this->checklistGroups->contains($checklistGroup)) {
+            $this->checklistGroups->removeElement($checklistGroup);
+            // set the owning side to null (unless already changed)
+            if ($checklistGroup->getChecklist() === $this) {
+                $checklistGroup->setChecklist(null);
+            }
+        }
+
+        return $this;
+    }
 }

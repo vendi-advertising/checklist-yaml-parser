@@ -1,7 +1,5 @@
 <?php
 
-/** @noinspection PhpUnused */
-
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,137 +12,137 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
-	/**
-	 * @ORM\Id()
-	 * @ORM\GeneratedValue()
-	 * @ORM\Column(type="integer")
-	 */
-	private int $id;
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private int $id;
 
-	/**
-	 * @ORM\Column(type="string", length=255)
-	 */
-	private string $email;
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private string $email;
 
-	/**
-	 * @ORM\Column(type="json")
-	 */
-	private array $roles = [];
+    /**
+     * @ORM\Column(type="json")
+     */
+    private array $roles = [];
 
-	public function getId(): ?int
-	{
-		return $this->id;
-	}
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private string $password;
 
-	public function getEmail(): ?string
-	{
-		return $this->email;
-	}
+    /**
+     * @ORM\OneToMany(targetEntity="Checklist", mappedBy="createdBy")
+     */
+    private Collection $checklists;
 
-	public function setEmail(string $email): self
-	{
-		$this->email = $email;
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-		return $this;
-	}
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
 
-	/**
-	 * @ORM\Column(type="string", length=255)
-	 */
-	private string $password;
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
-	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\ChecklistSession", mappedBy="createdBy")
-	 */
-	private Collection $checklistSessions;
+        return $this;
+    }
 
-	public function __construct()
-	{
-		$this->checklistSessions = new ArrayCollection();
-	}
+    public function __construct()
+    {
+        $this->checklists = new ArrayCollection();
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getRoles(): array
-	{
-		$roles = $this->roles;
-		// guarantee every user at least has ROLE_USER
-		$roles[] = 'ROLE_USER';
+    /**
+     * @inheritDoc
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
 
-		return array_unique($roles);
-	}
+        return array_unique($roles);
+    }
 
-	public function addRole(string $role): void
-	{
-		$this->roles[] = $role;
-	}
+    public function addRole(string $role): void
+    {
+        $this->roles[] = $role;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getPassword(): string
-	{
-		return $this->password;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getSalt()
-	{
-		// TODO: Implement getSalt() method.
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getUsername(): string
-	{
-		return $this->getEmail();
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getUsername(): string
+    {
+        return $this->getEmail();
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function eraseCredentials(): void
-	{
-		// TODO: Implement eraseCredentials() method.
-	}
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials(): void
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
 
-	public function setPassword(string $password): void
-	{
-		$this->password = $password;
-	}
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
 
-	/**
-	 * @return Collection|ChecklistSession[]
-	 */
-	public function getChecklistSessions(): Collection
-	{
-		return $this->checklistSessions;
-	}
+    /**
+     * @return Collection|Checklist[]
+     */
+    public function getChecklists(): Collection
+    {
+        return $this->checklists;
+    }
 
-	public function addChecklistSession(ChecklistSession $checklistSession): self
-	{
-		if (!$this->checklistSessions->contains($checklistSession)) {
-			$this->checklistSessions[] = $checklistSession;
-			$checklistSession->setCreatedBy($this);
-		}
+    public function addChecklist(Checklist $checklist): self
+    {
+        if (!$this->checklists->contains($checklist)) {
+            $this->checklists[] = $checklist;
+            $checklist->setCreatedBy($this);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function removeChecklistSession(ChecklistSession $checklistSession): self
-	{
-		if ($this->checklistSessions->contains($checklistSession)) {
-			$this->checklistSessions->removeElement($checklistSession);
-			// set the owning side to null (unless already changed)
-			if ($checklistSession->getCreatedBy() === $this) {
-				$checklistSession->setCreatedBy(null);
-			}
-		}
+    public function removeChecklist(Checklist $checklist): self
+    {
+        if ($this->checklists->contains($checklist)) {
+            $this->checklists->removeElement($checklist);
+            // set the owning side to null (unless already changed)
+            if ($checklist->getCreatedBy() === $this) {
+                $checklist->setCreatedBy(null);
+            }
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 }

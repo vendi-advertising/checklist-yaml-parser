@@ -10,27 +10,17 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ChecklistTemplate
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use UuidAsIdTrait;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private ?string $name = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $templateFile;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    private ?string $templateFile = null;
 
     public function getName(): ?string
     {
