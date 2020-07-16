@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\ChecklistEntry;
+use App\Entity\Item;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method ChecklistEntry|null find($id, $lockMode = null, $lockVersion = null)
- * @method ChecklistEntry|null findOneBy(array $criteria, array $orderBy = null)
- * @method ChecklistEntry[]    findAll()
- * @method ChecklistEntry[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Item|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Item|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Item[]    findAll()
+ * @method Item[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ChecklistEntryRepository extends ServiceEntityRepository
+class ItemRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ChecklistEntry::class);
+        parent::__construct($registry, Item::class);
     }
 
     // /**
-    //  * @return ChecklistEntry[] Returns an array of ChecklistEntry objects
+    //  * @return Item[] Returns an array of Item objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ChecklistEntryRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?ChecklistEntry
+    public function findOneBySomeField($value): ?Item
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

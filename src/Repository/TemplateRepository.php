@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\ChecklistTemplate;
+use App\Entity\Template;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method ChecklistTemplate|null find($id, $lockMode = null, $lockVersion = null)
- * @method ChecklistTemplate|null findOneBy(array $criteria, array $orderBy = null)
- * @method ChecklistTemplate[]    findAll()
- * @method ChecklistTemplate[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Template|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Template|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Template[]    findAll()
+ * @method Template[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ChecklistTemplateRepository extends ServiceEntityRepository
+class TemplateRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ChecklistTemplate::class);
+        parent::__construct($registry, Template::class);
     }
 
     // /**
-    //  * @return ChecklistTemplate[] Returns an array of ChecklistTemplate objects
+    //  * @return Template[] Returns an array of Template objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ChecklistTemplateRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?ChecklistTemplate
+    public function findOneBySomeField($value): ?Template
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

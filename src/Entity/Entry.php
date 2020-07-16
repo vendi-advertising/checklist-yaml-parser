@@ -2,24 +2,24 @@
 
 namespace App\Entity;
 
-use App\Repository\ChecklistEntryRepository;
+use App\Repository\EntryRepository;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Fresh\DoctrineEnumBundle\Validator\Constraints as DoctrineAssert;
 
 /**
- * @ORM\Entity(repositoryClass=ChecklistEntryRepository::class)
+ * @ORM\Entity(repositoryClass=EntryRepository::class)
  */
-class ChecklistEntry
+class Entry
 {
     use UuidAsIdTrait;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ChecklistItem::class, inversedBy="checklistEntries")
+     * @ORM\ManyToOne(targetEntity=Item::class, inversedBy="checklistEntries")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?ChecklistItem $checklistItem = null;
+    private ?Item $checklistItem = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
@@ -46,12 +46,12 @@ class ChecklistEntry
         $this->dateTimeCreated = new DateTimeImmutable();
     }
 
-    public function getChecklistItem(): ?ChecklistItem
+    public function getChecklistItem(): ?Item
     {
         return $this->checklistItem;
     }
 
-    public function setChecklistItem(?ChecklistItem $checklistItem): self
+    public function setChecklistItem(?Item $checklistItem): self
     {
         $this->checklistItem = $checklistItem;
         return $this;

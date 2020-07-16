@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ChecklistTemplateRepository;
+use App\Repository\TemplateRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ChecklistTemplateRepository::class)
+ * @ORM\Entity(repositoryClass=TemplateRepository::class)
  */
-class ChecklistTemplate
+class Template
 {
     use UuidAsIdTrait;
 

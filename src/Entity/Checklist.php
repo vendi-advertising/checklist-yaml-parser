@@ -26,19 +26,19 @@ class Checklist
     private ?User $createdBy = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ChecklistTemplate::class)
+     * @ORM\ManyToOne(targetEntity=Template::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?ChecklistTemplate $template = null;
+    private ?Template $template = null;
 
     /**
-     * @ORM\OneToMany(targetEntity=ChecklistItemGroup::class, mappedBy="checklist", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Section::class, mappedBy="checklist", orphanRemoval=true, cascade={"persist"})
      */
-    private Collection $checklistGroups;
+    private Collection $sections;
 
     public function __construct()
     {
-        $this->checklistGroups = new ArrayCollection();
+        $this->sections = new ArrayCollection();
     }
 
     public function getDescription(): ?string
@@ -65,12 +65,12 @@ class Checklist
         return $this;
     }
 
-    public function getTemplate(): ?ChecklistTemplate
+    public function getTemplate(): ?Template
     {
         return $this->template;
     }
 
-    public function setTemplate(?ChecklistTemplate $template): self
+    public function setTemplate(?Template $template): self
     {
         $this->template = $template;
 
@@ -78,30 +78,30 @@ class Checklist
     }
 
     /**
-     * @return Collection|ChecklistItemGroup[]
+     * @return Collection|Section[]
      */
-    public function getChecklistGroups(): Collection
+    public function getSections(): Collection
     {
-        return $this->checklistGroups;
+        return $this->sections;
     }
 
-    public function addChecklistGroup(ChecklistItemGroup $checklistGroup): self
+    public function addSection(Section $section): self
     {
-        if (!$this->checklistGroups->contains($checklistGroup)) {
-            $this->checklistGroups[] = $checklistGroup;
-            $checklistGroup->setChecklist($this);
+        if (!$this->sections->contains($section)) {
+            $this->sections[] = $section;
+            $section->setChecklist($this);
         }
 
         return $this;
     }
 
-    public function removeChecklistGroup(ChecklistItemGroup $checklistGroup): self
+    public function removeSection(Section $section): self
     {
-        if ($this->checklistGroups->contains($checklistGroup)) {
-            $this->checklistGroups->removeElement($checklistGroup);
+        if ($this->sections->contains($section)) {
+            $this->sections->removeElement($section);
             // set the owning side to null (unless already changed)
-            if ($checklistGroup->getChecklist() === $this) {
-                $checklistGroup->setChecklist(null);
+            if ($section->getChecklist() === $this) {
+                $section->setChecklist(null);
             }
         }
 

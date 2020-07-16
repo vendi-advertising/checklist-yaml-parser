@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ChecklistItemGroupRepository;
+use App\Repository\SectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ChecklistItemGroupRepository::class)
+ * @ORM\Entity(repositoryClass=SectionRepository::class)
  */
-class ChecklistItemGroup
+class Section
 {
     use SortOrderTrait;
     use UuidAsIdTrait;
@@ -27,7 +27,7 @@ class ChecklistItemGroup
     private ?Checklist $checklist = null;
 
     /**
-     * @ORM\OneToMany(targetEntity=ChecklistItem::class, mappedBy="checklistItemGroup", orphanRemoval=true,
+     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="checklistItemGroup", orphanRemoval=true,
      *                                                   cascade={"persist"})
      */
     private Collection $items;
@@ -62,30 +62,30 @@ class ChecklistItemGroup
     }
 
     /**
-     * @return Collection|ChecklistItem[]
+     * @return Collection|Item[]
      */
     public function getItems(): Collection
     {
         return $this->items;
     }
 
-    public function addItem(ChecklistItem $item): self
+    public function addItem(Item $item): self
     {
         if (!$this->items->contains($item)) {
             $this->items[] = $item;
-            $item->setChecklistItemGroup($this);
+            $item->setSection($this);
         }
 
         return $this;
     }
 
-    public function removeItem(ChecklistItem $item): self
+    public function removeItem(Item $item): self
     {
         if ($this->items->contains($item)) {
             $this->items->removeElement($item);
             // set the owning side to null (unless already changed)
-            if ($item->getChecklistItemGroup() === $this) {
-                $item->setChecklistItemGroup(null);
+            if ($item->getSection() === $this) {
+                $item->setSection(null);
             }
         }
 

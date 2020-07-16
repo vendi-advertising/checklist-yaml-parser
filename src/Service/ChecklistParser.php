@@ -3,8 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Checklist;
-use App\Entity\ChecklistItem;
-use App\Entity\ChecklistItemGroup;
+use App\Entity\Item;
 use App\Entity\Section;
 use App\Entity\SpecialYamlName;
 use App\Exceptions\InvalidItemTypeException;
@@ -31,7 +30,7 @@ final class ChecklistParser
     {
         $data = Yaml::parseFile(Path::join($this->parameterBag->get('kernel.project_dir'), $filename));
 
-        $checklist_name = array_key_first($data);
+//        $checklist_name = array_key_first($data);
         $checklist_items = array_shift($data);
 
         if (!is_array($checklist_items)) {
@@ -40,7 +39,7 @@ final class ChecklistParser
 
         $checklist = new Checklist();
         foreach ($checklist_items as $itemGroupName => $items) {
-            $itemGroup = new ChecklistItemGroup();
+            $itemGroup = new Section();
             $itemGroupNameParts = SpecialYamlName::parseString($itemGroupName);
             $itemGroup
                 ->setName($itemGroupNameParts->getName())
@@ -48,12 +47,12 @@ final class ChecklistParser
             foreach ($items as $itemName) {
                 $itemNameParts = SpecialYamlName::parseString($itemName);
                 $itemGroup->addItem(
-                    (new ChecklistItem())
+                    (new Item())
                         ->setName($itemNameParts->getName())
                         ->setSortOrder($itemNameParts->getSortOrder())
                 );
             }
-            $checklist->addChecklistGroup($itemGroup);
+            $checklist->addSection($itemGroup);
         }
 //        $checklist->validate();
 

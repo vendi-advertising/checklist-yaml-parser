@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\ChecklistTemplate;
+use App\Entity\Template;
 use App\Entity\User;
 use App\Service\ChecklistParser;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -28,7 +28,7 @@ class AppFixtures extends Fixture
         $user->addRole('ROLE_CHECKLIST_CREATOR');
         $manager->persist($user);
 
-        $checklistTemplate = (new ChecklistTemplate())->setName('Website Launch')->setTemplateFile('website-launch.yaml');
+        $checklistTemplate = (new Template())->setName('Website Launch')->setTemplateFile('website-launch.yaml');
         $manager->persist($checklistTemplate);
 
         $checklist = $this->checklistParser->parseFileFromRoot(
