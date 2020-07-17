@@ -95,11 +95,13 @@
                         item
                             .addEventListener(
                                 'change',
-                                () => {
+                                ( evt ) => {
                                     const
                                         parentRow = item.closest( 'li' ),
                                         rowCssClass = getRowCssClass( item )
                                     ;
+
+                                    console.dir( evt );
 
                                     parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_DONE );
                                     parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_NA );
@@ -118,6 +120,7 @@
         //Kick everything off
         init = () => {
             document.addEventListener( 'DOMContentLoaded', load );
+            new Pusher( window.VENDI_CHECKLIST_APP_KEY, { authEndpoint: window.VENDI_CHECKLIST_AUTH_ENDPOINT } );
         }
     ;
 

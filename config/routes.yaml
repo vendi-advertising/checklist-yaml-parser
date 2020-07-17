@@ -9,3 +9,25 @@ checklist_create:
 checklist_create_with_template:
     path: /checklist/new/{templateId}
     controller: App\Controller\ChecklistCreateController::new_with_template
+
+checklist_create_done:
+    path: /checklist/new/{checklistId}/done
+    controller: App\Controller\ChecklistCreateController::done
+
+checklist:
+    path: /checklist/{checklistId}
+    controller: App\Controller\SampleController::index
+
+
+
+app_login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+
+app_logout:
+    path: /logout
+    controller: App\Controller\SecurityController::logout
+
+pusher_authenticate:
+    path: /auth
+    controller: App\Controller\SecurityController::pusher_authenticate

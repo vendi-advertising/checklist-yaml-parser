@@ -21,16 +21,16 @@
         <input type="hidden" name="{{ tokenHtmlAttribute }}" value="{{ csrf_token(tokenId) }}"/>
         <h1>New checklist based on <em>{{ checklist.template.name }}</em></h1>
         <label for="checklistName">Checklist Name</label>
-        <input type="text" name="checklistName" id="checklistName" required />
+        <input type="text" name="checklistName" id="checklistName" value="Test Checklist" required/>
         <ul>
             {% for section in checklist.sections %}
                 <li>
-                    <input checked="checked" type="checkbox" value="{{ section.getHash }}" name="section" id="section-{{ section.getHash }}"/>
+                    <input checked="checked" type="checkbox" value="{{ section.getHash }}" name="section-{{ section.getHash }}" id="section-{{ section.getHash }}"/>
                     <label for="section-{{ section.getHash }}">{{ section.name }}</label>
                     <ul>
                         {% for item in section.items %}
                             <li>
-                                <input checked="checked" type="checkbox" value="{{ item.getHash }}" name="item" id="item-{{ item.getHash }}"/>
+                                <input checked="checked" type="checkbox" value="{{ item.getHash }}" name="item-{{ item.getHash }}-section-{{ section.getHash }}" id="item-{{ item.getHash }}"/>
                                 <label for="item-{{ item.getHash }}">{{ item.name }}</label>
                             </li>
                         {% endfor %}

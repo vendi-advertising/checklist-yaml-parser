@@ -1,93 +1,93 @@
 Website Launch:
-    1; Content:
-        - 1; Spelling, grammar, facts and formatting checked
-        - 2; All pages have titles
-        - 3; Page metadata setup
-        - 4; Images have appropriate alt text
-        - 5; Favicons setup
-        - 6; Search works as expected
-    2; Analytics:
-        - 1; Google Analytics setup
-        - 2; GA/GTM installed
-        - 3; Goals in GA setup
-    3; Contact methods accurate:
-        - 1; Phone numbers
-        - 2; Email addresses
-        - 3; Physical addresses
-    4; Social/sharing accurate:
-        - 1; Facebook
-        - 2; LinkedIn
-        - 3; YouTube
-        - 4; Twitter
-        - 5; Flickr
-        - 6; Pinterest
-        - 7; Instagram
-    5; Common pages exist:
-        - 1; Privacy Policy
-        - 2; Contact
-        - 3; Accessibility
-    6; Error pages created and serving correctly:
-        - 1; 401 - Unauthorized
-        - 2; 403 - Forbidden
-        - 3; 404 - Not Found
-        - 4; 410 - Gone
-    7; Forms:
-        - 1; Admin notification correct and working
-        - 2; User notification correct and working
-        - 3; Form FROM email address approved
-        - 4; CMS can send from approved email address to all known recipients (SPF/DKIM/etc.)
-        - 5; All forms have unique "thank you" pages
-    8; Testing:
-        - 1; List of supported browsers determined by analytics and/or client
-        - 2; All primary browsers must match feature-to-feature and UI-to-UI across all devices
-        - 3; All legacy browsers must function as similiar as possible to primary with potentially degraded UI/UX
-        - 4; Responsive testing for primary browsers is complete
-        - 5; Mobile testing for primary browsers is complete
-    9; CSS/JS building:
-        - 1; Build script and tools are setup including yarn, npm, node, webpack
-        - 2; Polyfills for JS loaded
-        - 3; All JS files listed for build in the correct order
-        - 4; All CSS files listed for build in the correct order
-    10; Performance:
-        - 1; All pages use W3C compliant HTML and CSS
-        - 2; All images optimized
-        - 3; CSS minified, aggregated and compressed
-        - 4; JS minified, aggregated and compressed
-        - 5; All pages have very low HTTP request count
-        - 6; All pages with assets have very low byte size
-        - 7; Page speed audit run on major pages
-        - 8; External assets avoided including fonts, JS, CSS, images, iframes
-        - 9; No console errors
-    11; Security:
-        - 1; TLS cert for local termination setup
-        - 2; Local cert auto-renew setup and tested
-        - 3; Cloudflare TLS termination setup
-    12; Hosting:
-        - 1; Hosting platform setup
-        - 2; Hosting configuration updated and modern
-        - 3; Server timezone correct
-        - 4; Redis setup
-    13; Domains/DNS:
-        - 1; Canonical fully-qualified domain name chosen
-        - 2; Vanity and/or subdomain redirects in place
-        - 3; Private DNS issues investigated with client
-    14; Email:
-        - 1; Server is able to send email in general
-        - 2; Server can send administrative emails
-        - 3; Server has a valid hostname for email
-        - 4; Web application has an SMTP override
-        - 5; SPF records are in place
-        - 6; DKIM records are in place
-        - 7; DMARC records are in place
-    15; CMS:
-        - 1; All plugins/modules updated
-        - 2; All core updates applied
-    16; WordPress:
-        - 1; Site Title and Tagline accurate
-        - 2; Timezone correct
-        - "3; Plugin installed: Better WordPress Minify"
-        - "4; Plugin installed: Classic Editor"
-        - "5; Plugin installed: Relevanssi"
-        - "6; Plugin installed: Redis"
-        - "7; Plugin installed: Stream"
-        - "8; Plugin installed: Yoast"
+    Content:
+        - Spelling, grammar, facts and formatting checked
+        - All pages have titles
+        - Page metadata setup
+        - Images have appropriate alt text
+        - Favicons setup
+        - Search works as expected
+    Analytics:
+        - Google Analytics setup
+        - GA/GTM installed
+        - Goals in GA setup
+    Contact methods accurate:
+        - Phone numbers
+        - Email addresses
+        - Physical addresses
+    Social/sharing accurate:
+        - Facebook
+        - LinkedIn
+        - YouTube
+        - Twitter
+        - Flickr
+        - Pinterest
+        - Instagram
+    Common pages exist:
+        - Privacy Policy
+        - Contact
+        - Accessibility
+    Error pages created and serving correctly:
+        - 401 - Unauthorized
+        - 403 - Forbidden
+        - 404 - Not Found
+        - 410 - Gone
+    Forms:
+        - Admin notification correct and working
+        - User notification correct and working
+        - Form FROM email address approved
+        - CMS can send from approved email address to all known recipients (SPF/DKIM/etc.)
+        - All forms have unique "thank you" pages
+    Testing:
+        - List of supported browsers determined by analytics and/or client
+        - All primary browsers must match feature-to-feature and UI-to-UI across all devices
+        - All legacy browsers must function as similiar as possible to primary with potentially degraded UI/UX
+        - Responsive testing for primary browsers is complete
+        - Mobile testing for primary browsers is complete
+    CSS/JS building:
+        - Build script and tools are setup including yarn, npm, node, webpack
+        - Polyfills for JS loaded
+        - All JS files listed for build in the correct order
+        - All CSS files listed for build in the correct order
+    Performance:
+        - All pages use W3C compliant HTML and CSS
+        - All images optimized
+        - CSS minified, aggregated and compressed
+        - JS minified, aggregated and compressed
+        - All pages have very low HTTP request count
+        - All pages with assets have very low byte size
+        - Page speed audit run on major pages
+        - External assets avoided including fonts, JS, CSS, images, iframes
+        - No console errors
+    Security:
+        - TLS cert for local termination setup
+        - Local cert auto-renew setup and tested
+        - Cloudflare TLS termination setup
+    Hosting:
+        - Hosting platform setup
+        - Hosting configuration updated and modern
+        - Server timezone correct
+        - Redis setup
+    Domains/DNS:
+        - Canonical fully-qualified domain name chosen
+        - Vanity and/or subdomain redirects in place
+        - Private DNS issues investigated with client
+    Email:
+        - Server is able to send email in general
+        - Server can send administrative emails
+        - Server has a valid hostname for email
+        - Web application has an SMTP override
+        - SPF records are in place
+        - DKIM records are in place
+        - DMARC records are in place
+    CMS:
+        - All plugins/modules updated
+        - All core updates applied
+    WordPress:
+        - Site Title and Tagline accurate
+        - Timezone correct
+        - "Plugin installed: Better WordPress Minify"
+        - "Plugin installed: Classic Editor"
+        - "Plugin installed: Relevanssi"
+        - "Plugin installed: Redis"
+        - "Plugin installed: Stream"
+        - "Plugin installed: Yoast"

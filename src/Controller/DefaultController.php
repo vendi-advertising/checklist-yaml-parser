@@ -8,14 +8,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-	/**
-	 * @Route("/", name="index")
-	 *
-	 * @return Response
-	 */
 	public function index()
 	{
-        return $this->redirectToRoute('website-launch');
-//		return $this->render('index.html.twig');
+        return $this->redirectToRoute('login');
 	}
 }

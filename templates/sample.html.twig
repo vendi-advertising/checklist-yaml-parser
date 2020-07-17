@@ -1,15 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="/css/main.css?v2"/>
+    <link rel="stylesheet" href="{{ asset('/css/main.css') }}"/>
 {% endblock %}
 
 {% block body %}
-    <ul class="all-checklists-nav">
-        <li><a href="{{ path('website-launch') }}">Website Launch</a></li>
-        <li><a href="{{ path('website-onboarding') }}">Website Onboarding</a></li>
-    </ul>
-    <h1>{{ checklist.name }}</h1>
+    <h1>{{ checklist.description }}</h1>
     {% for section in checklist.sections %}
         <div class="section">
             <h2><span>{{ section.name }}</span><span class="percentage" data-role="percentage-complete">0%</span></h2>
@@ -25,11 +21,6 @@
                         <label>
                             <input type="radio" name="{{ id }}" value="done"/>
                             {{ item.name }}
-                            {% if item.isHyperlink() %}
-                                <a href="{{ item.name }}" target="_blank" rel="noreferrer nofollow noopener">
-                                    External Link
-                                </a>
-                            {% endif %}
                         </label>
                     </li>
                 {% endfor %}
@@ -41,5 +32,10 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="/js/checklist.js?v2"></script>
+    <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
+    <script>
+        window.VENDI_CHECKLIST_APP_KEY = '{{ pusher_app_key }}';
+        window.VENDI_CHECKLIST_AUTH_ENDPOINT = '{{ pusher_auth_endpoint }}';
+    </script>
+    <script src="{{ asset('/js/checklist.js') }}"></script>
 {% endblock %}

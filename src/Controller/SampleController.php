@@ -2,54 +2,22 @@
 
 namespace App\Controller;
 
-use App\Exceptions\InvalidItemTypeException;
-use App\Service\ChecklistParser;
+use App\Repository\ChecklistRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class SampleController extends AbstractController
 {
-    private ChecklistParser $checklistParser;
-
-    public function __construct(ChecklistParser $checklistParser)
+    public function index(ChecklistRepository $checklistRepository, string $checklistId): Response
     {
-        $this->checklistParser = $checklistParser;
-    }
-
-    /**
-     * @Route("/website-launch", name="website-launch")
-     *
-     * @return Response
-     * @throws InvalidItemTypeException
-     */
-    public function website_launch(): Response
-    {
-        $checklist = $this->checklistParser->parseFileFromRoot('./config/checklists/website-launch.yaml');
-
+        $checklist = $checklistRepository->find($checklistId);
         return $this->render(
             'sample.html.twig',
             [
                 'user_first_name' => 'Chris',
                 'checklist' => $checklist,
-            ]);
-    }
-
-    /**
-     * @Route("/website-onboarding", name="website-onboarding")
-     *
-     * @return Response
-     * @throws InvalidItemTypeException
-     */
-    public function website_onboarding(): Response
-    {
-        $checklist = $this->checklistParser->parseFileFromRoot('./config/checklists/website-onboarding.yaml');
-
-        return $this->render(
-            'sample.html.twig',
-            [
-                'user_first_name' => 'Chris',
-                'checklist' => $checklist,
+                'pusher_app_key' => 'aca6b37753a9e751466d', //getenv('PUSHER_KEY'),
+                'pusher_auth_endpoint' => $this->generateUrl('pusher_authenticate'),
             ]);
     }
 }

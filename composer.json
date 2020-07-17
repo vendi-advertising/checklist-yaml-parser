@@ -8,6 +8,7 @@
     "ext-json": "*",
     "doctrine/annotations": "^1.8",
     "fresh/doctrine-enum-bundle": "^7.0",
+    "pusher/pusher-php-server": "^4.1",
     "ramsey/uuid-doctrine": "^1.6",
     "symfony/asset": "5.1.*",
     "symfony/console": "5.1.*",
