@@ -8,19 +8,19 @@
     <h1>{{ checklist.description }}</h1>
     {% for section in checklist.sections %}
         <div class="section">
-            <h2><span>{{ section.name }}</span><span class="percentage" data-role="percentage-complete">0%</span></h2>
-            <ul>
+            <h2 class="section-header"><span>{{ section.name }}</span><span class="percentage" data-role="percentage-complete">0%</span></h2>
+            <ul class="section-items">
                 {% for item in section.items %}
                     {% set value = item.getLastEntryValue %}
-                    <li class="{{ value }}">
+                    <li class="section-item {{ value }}">
                         <label class="clicker-for-nope" for="nope_{{ item.id }}">
                             X
                         </label>
                         <label class="container-for-nope">
                             <input type="radio" name="{{ item.id }}" id="nope_{{ item.id }}" value="nope"
-                                   {% if value == 'nope' %}
-                                   checked
-                                   {% endif %}
+                                    {% if value == 'nope' %}
+                                        checked
+                                    {% endif %}
                             />
                             Not done
                         </label>
@@ -40,6 +40,11 @@
                             />
                             {{ item.name }}
                         </label>
+                        <span class="info">ℹ</span>
+                        <ul class="notes">
+                            <li>Note 1</li>
+                            <li>Note 2</li>
+                        </ul>
                     </li>
                 {% endfor %}
 

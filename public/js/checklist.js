@@ -7,6 +7,9 @@
         MAGIC_CSS_CLASS_FOR_DONE = 'done',
         MAGIC_CSS_CLASS_FOR_NOPE = 'nope',
 
+        MAGIC_CSS_CLASS_FOR_INFO = 'info',
+        MAGIC_CSS_CLASS_FOR_NOTES = 'notes',
+
         MAGIC_VALUE_FOR_NA = 'na',
         MAGIC_VALUE_FOR_DONE = 'done',
         MAGIC_VALUE_FOR_NOPE = 'nope',
@@ -84,7 +87,7 @@
 
         },
 
-        load = () => {
+        setupRadios = () => {
 
             // Handle the change event for all radio buttons (assumes there's no other
             // radio buttons except in sections).
@@ -128,6 +131,30 @@
                     }
                 )
             ;
+        },
+
+        setupNotes = () => {
+            document
+                .querySelectorAll( '.' + MAGIC_CSS_CLASS_FOR_INFO )
+                .forEach(
+                    ( info ) => {
+                        const note = info.parentNode.querySelector( '.' + MAGIC_CSS_CLASS_FOR_NOTES );
+                        info
+                            .addEventListener(
+                                'click',
+                                () => {
+                                    note.classList.toggle( 'visible' );
+                                }
+                            )
+                        ;
+                    }
+                )
+            ;
+        },
+
+        load = () => {
+            setupRadios();
+            setupNotes();
         },
 
         //Kick everything off
