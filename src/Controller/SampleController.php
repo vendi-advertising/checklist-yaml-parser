@@ -11,12 +11,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class SampleController extends AbstractController
 {
-    public function index(ChecklistRepository $checklistRepository, string $checklistId): Response
+    public function index(CacheInterface $cache, ItemRepository $itemRepository, ChecklistRepository $checklistRepository, string $checklistId): Response
     {
-        $checklist = $checklistRepository->find($checklistId);
+        $checklist = $cache->get(
+            'checklist-' . $checklistId,
+            static function () use ($checklistRepository, $checklistId) {
+                return $checklistRepository->find($checklistId);
+            }
+        );
+
         return $this->render(
             'sample.html.twig',
             [
@@ -28,7 +35,7 @@ class SampleController extends AbstractController
             ]);
     }
 
-    public function entry_update(EntityManagerInterface $entityManager, Security $security, ChecklistRepository $checklistRepository, ItemRepository $itemRepository, Request $request, string $checklistId): Response
+    public function entry_update(CacheInterface $cache, EntityManagerInterface $entityManager, Security $security, ChecklistRepository $checklistRepository, ItemRepository $itemRepository, Request $request, string $checklistId): Response
     {
 
         $value = $request->request->get('value');
@@ -47,6 +54,8 @@ class SampleController extends AbstractController
 
         $entityManager->persist($entry);
         $entityManager->flush();
+
+        $cache->delete('checklist-' . $checklistId);
 
         return $this->json(['status' => 'success']);
     }

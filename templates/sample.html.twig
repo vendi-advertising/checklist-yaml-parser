@@ -12,7 +12,7 @@
             <ul>
                 {% for item in section.items %}
                     {% set value = item.getLastEntryValue %}
-                    <li>
+                    <li class="{{ value }}">
                         <label class="clicker-for-nope" for="nope_{{ item.id }}">
                             X
                         </label>
@@ -25,8 +25,8 @@
                             Not done
                         </label>
                         <label>
-                            <input type="radio" name="{{ item.id }}" value="n/a"
-                                    {% if value == 'n/a' %}
+                            <input type="radio" name="{{ item.id }}" value="na"
+                                    {% if value == 'na' %}
                                         checked
                                     {% endif %}
                             />

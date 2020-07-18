@@ -12,17 +12,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private int $id;
+
+    use UuidAsIdTrait;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $email;
+    private ?string $email = null;
 
     /**
      * @ORM\Column(type="json")
@@ -32,17 +28,12 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $password;
+    private ?string $password = null;
 
     /**
      * @ORM\OneToMany(targetEntity="Checklist", mappedBy="createdBy")
      */
-    private Collection $checklists;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    private ?Collection $checklists = null;
 
     public function getEmail(): ?string
     {

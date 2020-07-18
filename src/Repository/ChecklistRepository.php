@@ -19,6 +19,21 @@ class ChecklistRepository extends ServiceEntityRepository
         parent::__construct($registry, Checklist::class);
     }
 
+    public function findOneById(string $id): Checklist
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.sections', 's')
+            ->leftJoin('s.items', 'i')
+            ->leftJoin('i.entries', 'e')
+            ->addSelect('s')
+            ->addSelect('i')
+            ->addSelect('e')
+            ->andWhere('c.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // /**
     //  * @return Checklist[] Returns an array of ChecklistSession objects
     //  */

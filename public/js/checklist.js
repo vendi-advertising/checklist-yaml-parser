@@ -7,7 +7,7 @@
         MAGIC_CSS_CLASS_FOR_DONE = 'done',
         MAGIC_CSS_CLASS_FOR_NOPE = 'nope',
 
-        MAGIC_VALUE_FOR_NA = 'n/a',
+        MAGIC_VALUE_FOR_NA = 'na',
         MAGIC_VALUE_FOR_DONE = 'done',
         MAGIC_VALUE_FOR_NOPE = 'nope',
 
@@ -122,6 +122,9 @@
                                 }
                             )
                         ;
+
+                        // Call this once to setup percentages on page load, too
+                        updatePercentage( item );
                     }
                 )
             ;

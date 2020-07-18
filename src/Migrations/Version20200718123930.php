@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200716103034 extends AbstractMigration
+final class Version20200718123930 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -23,13 +23,15 @@ final class Version20200716103034 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'sqlite', 'Migration can only be executed safely on \'sqlite\'.');
 
         $this->addSql('CREATE TABLE checklist (id CHAR(36) NOT NULL --(DC2Type:uuid)
-        , created_by_id INTEGER NOT NULL, template_id CHAR(36) NOT NULL --(DC2Type:uuid)
+        , created_by_id CHAR(36) NOT NULL --(DC2Type:uuid)
+        , template_id CHAR(36) NOT NULL --(DC2Type:uuid)
         , description VARCHAR(1024) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_5C696D2FB03A8386 ON checklist (created_by_id)');
         $this->addSql('CREATE INDEX IDX_5C696D2F5DA0FB8 ON checklist (template_id)');
         $this->addSql('CREATE TABLE entry (id CHAR(36) NOT NULL --(DC2Type:uuid)
         , checklist_item_id CHAR(36) NOT NULL --(DC2Type:uuid)
-        , user_id INTEGER NOT NULL, value TEXT CHECK(value IN (\'not-set\', \'na\', \'checked\')) NOT NULL --(DC2Type:ItemStatus)
+        , user_id CHAR(36) NOT NULL --(DC2Type:uuid)
+        , value TEXT CHECK(value IN (\'nope\', \'na\', \'done\')) NOT NULL --(DC2Type:ItemStatus)
         , date_time_created DATETIME NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_2B219D707E0892A4 ON entry (checklist_item_id)');
         $this->addSql('CREATE INDEX IDX_2B219D70A76ED395 ON entry (user_id)');
@@ -43,8 +45,9 @@ final class Version20200716103034 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_2D737AEFB16D08A7 ON section (checklist_id)');
         $this->addSql('CREATE TABLE template (id CHAR(36) NOT NULL --(DC2Type:uuid)
         , name VARCHAR(255) NOT NULL, template_file VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, email VARCHAR(255) NOT NULL, roles CLOB NOT NULL --(DC2Type:json)
-        , password VARCHAR(255) NOT NULL)');
+        $this->addSql('CREATE TABLE user (id CHAR(36) NOT NULL --(DC2Type:uuid)
+        , email VARCHAR(255) NOT NULL, roles CLOB NOT NULL --(DC2Type:json)
+        , password VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
     }
 
     public function down(Schema $schema) : void

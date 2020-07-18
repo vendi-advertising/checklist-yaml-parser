@@ -28,9 +28,6 @@ class Entry
     private ?User $user = null;
 
     /**
-     * Note, that type of a field should be same as you set in Doctrine config
-     * (in this case it is BasketballPositionType)
-     *
      * @ORM\Column(type="ItemStatus", nullable=false)
      * @DoctrineAssert\Enum(entity="App\DBAL\Types\ItemStatus")
      */

@@ -28,7 +28,8 @@ class Section extends HashableObject
     private ?Checklist $checklist = null;
 
     /**
-     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="section", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="section", orphanRemoval=true, cascade={"persist"},
+     *                                          fetch="EAGER")
      */
     private Collection $items;
 

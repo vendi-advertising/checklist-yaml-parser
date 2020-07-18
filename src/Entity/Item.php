@@ -22,7 +22,7 @@ class Item extends HashableObject
     private ?string $name = null;
 
     /**
-     * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="checklistItem", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="checklistItem", orphanRemoval=true, fetch="EAGER")
      */
     private Collection $entries;
 
