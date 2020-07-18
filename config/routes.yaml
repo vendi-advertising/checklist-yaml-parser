@@ -18,6 +18,12 @@ checklist:
     path: /checklist/{checklistId}
     controller: App\Controller\SampleController::index
 
+checklist_entry_update:
+    path: /checklist/{checklistId}/updateEntry
+    controller: App\Controller\SampleController::entry_update
+    methods: POST
+    defaults:
+        _format: json
 
 
 app_login:

@@ -20,7 +20,7 @@ class ChecklistRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return ChecklistSession[] Returns an array of ChecklistSession objects
+    //  * @return Checklist[] Returns an array of ChecklistSession objects
     //  */
     /*
     public function findByExampleField($value)

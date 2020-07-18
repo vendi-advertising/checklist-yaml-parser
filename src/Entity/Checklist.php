@@ -109,6 +109,19 @@ class Checklist extends HashableObject
         return $this;
     }
 
+    public function hasItem(Item $testItem): bool
+    {
+        foreach ($this->getSections() as $section) {
+            foreach ($section->getItems() as $item) {
+                if ($item->getId() === $testItem->getId()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public function getHashProperties(): array
     {
         return [

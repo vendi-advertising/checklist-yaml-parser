@@ -11,15 +11,33 @@
             <h2><span>{{ section.name }}</span><span class="percentage" data-role="percentage-complete">0%</span></h2>
             <ul>
                 {% for item in section.items %}
+                    {% set value = item.getLastEntryValue %}
                     <li>
-                        {% set id = 'id_' ~ item.hash %}
-                        {% set id_nope = 'id_nope_' ~ item.hash %}
-                        <label class="clicker-for-nope" for="{{ id_nope }}">X</label>
-                        <label class="container-for-nope"><input type="radio" name="{{ id }}" id="{{ id_nope }}"
-                                                                 value="nope" checked/>Not done</label>
-                        <label><input type="radio" name="{{ id }}" value="n/a"/>n/a</label>
+                        <label class="clicker-for-nope" for="nope_{{ item.id }}">
+                            X
+                        </label>
+                        <label class="container-for-nope">
+                            <input type="radio" name="{{ item.id }}" id="nope_{{ item.id }}" value="nope"
+                                   {% if value == 'nope' %}
+                                   checked
+                                   {% endif %}
+                            />
+                            Not done
+                        </label>
                         <label>
-                            <input type="radio" name="{{ id }}" value="done"/>
+                            <input type="radio" name="{{ item.id }}" value="n/a"
+                                    {% if value == 'n/a' %}
+                                        checked
+                                    {% endif %}
+                            />
+                            n/a
+                        </label>
+                        <label>
+                            <input type="radio" name="{{ item.id }}" value="done"
+                                    {% if value == 'done' %}
+                                        checked
+                                    {% endif %}
+                            />
                             {{ item.name }}
                         </label>
                     </li>
@@ -36,6 +54,8 @@
     <script>
         window.VENDI_CHECKLIST_APP_KEY = '{{ pusher_app_key }}';
         window.VENDI_CHECKLIST_AUTH_ENDPOINT = '{{ pusher_auth_endpoint }}';
+        window.VENDI_CHECKLIST_UPDATE_URL = '{{ update_url }}';
     </script>
+    <script src="{{ asset('/js/ajax.js') }}"></script>
     <script src="{{ asset('/js/checklist.js') }}"></script>
 {% endblock %}

@@ -49,6 +49,32 @@ class Item extends HashableObject
         return $this;
     }
 
+    public function getLastEntryValue(): string
+    {
+        static $lastEntryValue = null;
+
+        // TODO: This whole function could be optimized
+        $entries = $this->getEntries();
+        if (!$entries->count()) {
+            return \App\DBAL\Types\ItemStatus::NOT_SET;
+        }
+
+        $entries = $entries->toArray();
+
+        usort(
+            $entries,
+            static function (Entry $a, Entry $b) {
+                return $a->getDateTimeCreated() <=> $b->getDateTimeCreated();
+            }
+        );
+
+        $mostRecent = end($entries);
+
+        $lastEntryValue = $mostRecent->getValue();
+
+        return $lastEntryValue;
+    }
+
     /**
      * @return Collection|Entry[]
      */

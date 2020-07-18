@@ -6,9 +6,9 @@ use Fresh\DoctrineEnumBundle\DBAL\Types\AbstractEnumType;
 
 final class ItemStatus extends AbstractEnumType
 {
-    public const NOT_SET = 'not-set';
-    public const NOT_APPLICABLE = 'na';
-    public const CHECKED = 'checked';
+    public const NOT_SET = 'nope';
+    public const NOT_APPLICABLE = 'n/a';
+    public const CHECKED = 'done';
 
     protected static $choices = [
         self::NOT_SET => 'Not Set',

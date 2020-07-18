@@ -14,8 +14,8 @@
         getRowCssClass = ( item ) => {
 
             const
-                done = document.querySelector( `input[type=radio][name=${item.name}][value="${MAGIC_VALUE_FOR_DONE}"]` ),
-                na = document.querySelector( `input[type=radio][name=${item.name}][value="${MAGIC_VALUE_FOR_NA}"]` )
+                done = document.querySelector( `input[type=radio][name="${item.name}"][value="${MAGIC_VALUE_FOR_DONE}"]` ),
+                na = document.querySelector( `input[type=radio][name="${item.name}"][value="${MAGIC_VALUE_FOR_NA}"]` )
             ;
 
             if ( done.checked ) {
@@ -100,6 +100,16 @@
                                         parentRow = item.closest( 'li' ),
                                         rowCssClass = getRowCssClass( item )
                                     ;
+
+                                    window
+                                        .ajax
+                                        .post(
+                                            window.VENDI_CHECKLIST_UPDATE_URL,
+                                            {
+                                                value: item.value,
+                                                itemId: item.name,
+                                            }
+                                        );
 
                                     console.dir( evt );
 
