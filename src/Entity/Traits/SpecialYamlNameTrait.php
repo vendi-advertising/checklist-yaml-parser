@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Traits;
 
-final class SpecialYamlName
+final class SpecialYamlNameTrait
 {
     private ?int $sortOrder;
     private ?string $name;
@@ -35,13 +35,13 @@ final class SpecialYamlName
         return (new self)->setName($name)->setSortOrder($sortOrder);
     }
 
-    private function setSortOrder(?int $sortOrder): SpecialYamlName
+    private function setSortOrder(?int $sortOrder): self
     {
         $this->sortOrder = $sortOrder;
         return $this;
     }
 
-    private function setName(?string $name): SpecialYamlName
+    private function setName(?string $name): self
     {
         $this->name = $name;
         return $this;

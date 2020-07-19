@@ -14,6 +14,29 @@
         MAGIC_VALUE_FOR_DONE = 'done',
         MAGIC_VALUE_FOR_NOPE = 'nope',
 
+        MAGIC_ATTRIBUTE_SHOW_ID_NOTE_SELECTOR = 'data-show-hide-notes',
+        MAGIC_ATTRIBUTE_SHOW_ID_NOTE_ID = 'data-item-notes-id',
+
+
+        MAGIC_ATTRIBUTE_NAME_DATA_ROLE = 'data-role',
+        MAGIC_ATTRIBUTE_NAME_DATA_TARGET = 'data-target',
+
+        MAGIC_ATTRIBUTE_ROLE_VALUE_NEW_NOTE = 'new-note',
+        MAGIC_ATTRIBUTE_ROLE_VALUE_MODAL_NEW_NOTE = 'new-note-modal',
+
+        LEFT_BRACKET = '[',
+        RIGHT_BRACKET = ']',
+        CONTAINS = '~=',
+        QUOTE = '"',
+
+        LB = LEFT_BRACKET,
+        RB = RIGHT_BRACKET,
+        C = CONTAINS,
+        Q = QUOTE,
+
+        MAGIC_SELECTOR_NEW_NOTE_BUTTONS = LB + MAGIC_ATTRIBUTE_NAME_DATA_ROLE + C + Q + MAGIC_ATTRIBUTE_ROLE_VALUE_NEW_NOTE + Q + RB,
+        MAGIC_SELECTOR_MODAL = LB + MAGIC_ATTRIBUTE_NAME_DATA_ROLE + C + Q + MAGIC_ATTRIBUTE_ROLE_VALUE_MODAL_NEW_NOTE + Q + RB,
+
         getRowCssClass = ( item ) => {
 
             const
@@ -133,17 +156,76 @@
             ;
         },
 
+        handleNoteToggle = ( evt ) => {
+            const
+                obj = evt.currentTarget,
+                selector = `[${MAGIC_ATTRIBUTE_SHOW_ID_NOTE_ID}="${obj.getAttribute( MAGIC_ATTRIBUTE_SHOW_ID_NOTE_SELECTOR )}"`
+            ;
+
+            document
+                .querySelectorAll( selector )
+                .forEach(
+                    ( el ) => {
+                        const
+                            ch = el.clientHeight,
+                            sh = el.scrollHeight,
+                            isCollapsed = !ch,
+                            noHeightSet = !el.style.height
+                        ;
+
+                        el.style.height = (isCollapsed || noHeightSet ? sh : 0) + 'px';
+                        if ( noHeightSet ) {
+                            return handleNoteToggle( { currentTarget: obj } );
+                        }
+                    }
+                )
+            ;
+        },
+
         setupNotes = () => {
             document
-                .querySelectorAll( '.' + MAGIC_CSS_CLASS_FOR_INFO )
+                .querySelectorAll( `[${MAGIC_ATTRIBUTE_SHOW_ID_NOTE_SELECTOR}]` )
                 .forEach(
-                    ( info ) => {
-                        const note = info.parentNode.querySelector( '.' + MAGIC_CSS_CLASS_FOR_NOTES );
-                        info
+                    ( el ) => {
+                        el.addEventListener( 'click', handleNoteToggle );
+                    }
+                )
+            ;
+        },
+        //
+        // createModal = () => {
+        //     const
+        //         modalContainer = document.createElement( 'div' ),
+        //         modal = document.createElement( 'div' )
+        //     ;
+        //
+        //     modalContainer.classList.add( 'modal-container' );
+        //     modalContainer.setAttribute( MAGIC_ATTRIBUTE_NAME_DATA_ROLE, MAGIC_ATTRIBUTE_ROLE_VALUE_MODAL_NEW_NOTE );
+        //     modal.classList.add( 'modal-content' );
+        //     modalContainer.appendChild( modal );
+        //     document.body.appendChild( modalContainer );
+        //     return modalContainer;
+        // },
+
+        getModal = () => {
+            return document.querySelector( MAGIC_SELECTOR_MODAL );
+        },
+
+        getOrCreateModal = () => {
+            return getModal();// || createModal();
+        },
+
+        setupNewNoteLinks = () => {
+            document
+                .querySelectorAll( MAGIC_SELECTOR_NEW_NOTE_BUTTONS )
+                .forEach(
+                    ( button ) => {
+                        button
                             .addEventListener(
                                 'click',
                                 () => {
-                                    note.classList.toggle( 'visible' );
+                                    const modal = getOrCreateModal();
+                                    document.documentElement.classList.add( 'modal-visible' );
                                 }
                             )
                         ;
@@ -155,6 +237,7 @@
         load = () => {
             setupRadios();
             setupNotes();
+            setupNewNoteLinks();
         },
 
         //Kick everything off

@@ -2,13 +2,15 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('/css/main.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('/css/new-note-modal.css') }}"/>
 {% endblock %}
 
 {% block body %}
     <h1>{{ checklist.description }}</h1>
     {% for section in checklist.sections %}
         <div class="section">
-            <h2 class="section-header"><span>{{ section.name }}</span><span class="percentage" data-role="percentage-complete">0%</span></h2>
+            <h2 class="section-header">
+                <span>{{ section.name }}</span><span class="percentage" data-role="percentage-complete">0%</span></h2>
             <ul class="section-items">
                 {% for item in section.items %}
                     {% set value = item.getLastEntryValue %}
@@ -40,18 +42,33 @@
                             />
                             {{ item.name }}
                         </label>
-                        <span class="info">ℹ</span>
-                        <ul class="notes">
-                            <li>Note 1</li>
-                            <li>Note 2</li>
-                        </ul>
+                        <span class="info" data-show-hide-notes="{{ item.id }}">ℹ</span>
+                        <div class="notes" data-item-notes-id="{{ item.id }}">
+                            <ul class="note-list" data-role="notes">
+                                <li>Note 1</li>
+                                <li>Note 2</li>
+                                <li>
+                                    <button class="new-note-link" data-role="new-note" data-target="{{ item.id }}">Add a note</button>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                 {% endfor %}
 
             </ul>
         </div>
     {% endfor %}
-
+    <div class="modal-container" data-role="new-note-modal">
+        <div class="modal-content">
+            <form class="modal-form">
+                <label for="note-text">Note text</label>
+                <textarea name="note-text" id="note-text"></textarea>
+                <div>
+                    <button>Add new note</button>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\SortOrderTrait;
+use App\Entity\Traits\UuidAsIdTrait;
 use App\Hashing\HashableObject;
 use App\Repository\SectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -13,7 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Section extends HashableObject
 {
-    use SortOrderTrait;
     use UuidAsIdTrait;
 
     /**

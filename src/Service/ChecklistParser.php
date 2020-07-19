@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Entity\Checklist;
 use App\Entity\Item;
 use App\Entity\Section;
-use App\Entity\SpecialYamlName;
 use App\Entity\Template;
 use App\Exceptions\InvalidItemTypeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -52,18 +51,9 @@ final class ChecklistParser
 
         $checklist = new Checklist();
         foreach ($checklist_items as $itemGroupName => $items) {
-            $itemGroup = new Section();
-            $itemGroupNameParts = SpecialYamlName::parseString($itemGroupName);
-            $itemGroup
-                ->setName($itemGroupNameParts->getName())
-                ->setSortOrder($itemGroupNameParts->getSortOrder());
+            $itemGroup = (new Section())->setName($itemGroupName);
             foreach ($items as $itemName) {
-                $itemNameParts = SpecialYamlName::parseString($itemName);
-                $itemGroup->addItem(
-                    (new Item())
-                        ->setName($itemNameParts->getName())
-                        ->setSortOrder($itemNameParts->getSortOrder())
-                );
+                $itemGroup->addItem((new Item())->setName($itemName));
             }
             $checklist->addSection($itemGroup);
         }

@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\DateTimeCreatedTrait;
+use App\Entity\Traits\UuidAsIdTrait;
 use App\Hashing\HashableObject;
 use App\Repository\ChecklistRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,6 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Checklist extends HashableObject
 {
     use UuidAsIdTrait;
+    use DateTimeCreatedTrait;
 
     /**
      * @ORM\Column(type="string", length=1024)
@@ -41,6 +45,7 @@ class Checklist extends HashableObject
     public function __construct()
     {
         $this->sections = new ArrayCollection();
+        $this->dateTimeCreated = new DateTimeImmutable();
     }
 
     public function getDescription(): ?string

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\UuidAsIdTrait;
 use App\Hashing\HashableObject;
 use App\Repository\ItemRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -13,7 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Item extends HashableObject
 {
-    use SortOrderTrait;
     use UuidAsIdTrait;
 
     /**
@@ -32,9 +32,16 @@ class Item extends HashableObject
      */
     private ?Section $section = null;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Note::class, mappedBy="item", orphanRemoval=true, cascade={"persist"},
+     *                                          fetch="EAGER")
+     */
+    private ?Collection $notes = null;
+
     public function __construct()
     {
         $this->entries = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function getName(): ?string
@@ -123,5 +130,36 @@ class Item extends HashableObject
         return [
             'name',
         ];
+    }
+
+    /**
+     * @return Collection|Note[]
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes[] = $note;
+            $note->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->contains($note)) {
+            $this->notes->removeElement($note);
+            // set the owning side to null (unless already changed)
+            if ($note->getItem() === $this) {
+                $note->setItem(null);
+            }
+        }
+
+        return $this;
     }
 }

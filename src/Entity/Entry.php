@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\DateTimeCreatedTrait;
+use App\Entity\Traits\UuidAsIdTrait;
 use App\Repository\EntryRepository;
 use DateTimeImmutable;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Fresh\DoctrineEnumBundle\Validator\Constraints as DoctrineAssert;
 
@@ -14,6 +15,7 @@ use Fresh\DoctrineEnumBundle\Validator\Constraints as DoctrineAssert;
 class Entry
 {
     use UuidAsIdTrait;
+    use DateTimeCreatedTrait;
 
     /**
      * @ORM\ManyToOne(targetEntity=Item::class, inversedBy="checklistEntries")
@@ -32,11 +34,6 @@ class Entry
      * @DoctrineAssert\Enum(entity="App\DBAL\Types\ItemStatus")
      */
     private ?string $value = null;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private ?DateTimeInterface $dateTimeCreated = null;
 
     public function __construct()
     {
@@ -73,18 +70,6 @@ class Entry
     public function setValue(?string $value): self
     {
         $this->value = $value;
-        return $this;
-    }
-
-    public function getDateTimeCreated(): ?DateTimeInterface
-    {
-        return $this->dateTimeCreated;
-    }
-
-    public function setDateTimeCreated(DateTimeInterface $dateTimeCreated): self
-    {
-        $this->dateTimeCreated = $dateTimeCreated;
-
         return $this;
     }
 }

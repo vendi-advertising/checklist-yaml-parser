@@ -44,6 +44,20 @@ li {
     padding: 0;
 }
 
+button {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    font-family: sans-serif;
+    line-height: 1;
+    margin: 0;
+    text-align: center;
+    text-decoration: none;
+}
+
 .section {
     border: 0.1rem solid var(--color-primary-black);
     margin-bottom: 2rem;
@@ -77,24 +91,31 @@ li {
     color: var(--color-info);
     cursor: pointer;
     display: block;
+    opacity: 0.2;
     text-align: center;
 }
 
 .section .section-item .info:hover {
     background-color: var(--color-info);
     color: var(--color-primary-white);
+    opacity: 1;
 }
 
 .section .section-item .notes {
     grid-column: 1 / 5;
-    max-height: 0;
+    height: 0;
     overflow: hidden;
     padding: 0;
-    transition: all 0.25s ease;
+    transition: height 0.25s ease;
 }
 
-.section .section-item .notes.visible {
-    max-height: 100%;
+.section .section-item .notes .note-list {
+    padding: 1rem;
+}
+
+.section .section-item .notes .note-list .new-note-link {
+    color: var(--color-brand-blue);
+    cursor: pointer;
 }
 
 .section .section-item:last-child {

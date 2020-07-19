@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\UuidAsIdTrait;
 use App\Hashing\HashableObject;
 use App\Repository\TemplateRepository;
 use Doctrine\ORM\Mapping as ORM;
