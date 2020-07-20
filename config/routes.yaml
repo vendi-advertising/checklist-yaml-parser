@@ -39,5 +39,5 @@ app_logout:
     controller: App\Controller\SecurityController::logout
 
 pusher_authenticate:
-    path: /auth
+    path: /checklist/auth
     controller: App\Controller\SecurityController::pusher_authenticate

@@ -42,7 +42,11 @@
                             />
                             {{ item.name }}
                         </label>
-                        <span class="info" data-show-hide-notes="{{ item.id }}">ℹ</span>
+                        <span class="info
+                        {% if item.notes|length %}
+                        with-notes
+                        {% endif %}
+" data-show-hide-notes="{{ item.id }}">ℹ</span>
                         <div class="notes" data-item-notes-id="{{ item.id }}" data-note-count="{{ item.notes | length }}">
                             <ol class="note-list" data-role="notes">
                                 {% for note in item.notes %}

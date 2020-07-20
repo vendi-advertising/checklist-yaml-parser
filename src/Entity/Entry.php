@@ -18,7 +18,7 @@ class Entry
     use DateTimeCreatedTrait;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Item::class, inversedBy="checklistEntries")
+     * @ORM\ManyToOne(targetEntity=Item::class, inversedBy="entries")
      * @ORM\JoinColumn(nullable=false)
      */
     private ?Item $checklistItem = null;

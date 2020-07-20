@@ -27,6 +27,12 @@ class Note
      */
     private ?Item $item = null;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function getText(): ?string
     {
         return $this->text;
@@ -54,5 +60,17 @@ class Note
     public function __construct()
     {
         $this->dateTimeCreated = new DateTimeImmutable();
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }

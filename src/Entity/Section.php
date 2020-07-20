@@ -23,7 +23,7 @@ class Section extends HashableObject
     private ?string $name = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Checklist::class, inversedBy="checklistGroups")
+     * @ORM\ManyToOne(targetEntity=Checklist::class, inversedBy="sections", cascade={"persist"}, fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private ?Checklist $checklist = null;

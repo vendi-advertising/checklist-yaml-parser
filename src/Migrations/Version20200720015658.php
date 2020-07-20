@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200719172010 extends AbstractMigration
+final class Version20200720015658 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -37,15 +37,17 @@ final class Version20200719172010 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_2B219D70A76ED395 ON entry (user_id)');
         $this->addSql('CREATE TABLE item (id CHAR(36) NOT NULL --(DC2Type:uuid)
         , section_id CHAR(36) NOT NULL --(DC2Type:uuid)
-        , name VARCHAR(255) NOT NULL, sort_order INTEGER NOT NULL, PRIMARY KEY(id))');
+        , name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_1F1B251ED823E37A ON item (section_id)');
         $this->addSql('CREATE TABLE note (id CHAR(36) NOT NULL --(DC2Type:uuid)
         , item_id CHAR(36) NOT NULL --(DC2Type:uuid)
+        , user_id CHAR(36) NOT NULL --(DC2Type:uuid)
         , text CLOB NOT NULL, date_time_created DATETIME NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_CFBDFA14126F525E ON note (item_id)');
+        $this->addSql('CREATE INDEX IDX_CFBDFA14A76ED395 ON note (user_id)');
         $this->addSql('CREATE TABLE section (id CHAR(36) NOT NULL --(DC2Type:uuid)
         , checklist_id CHAR(36) NOT NULL --(DC2Type:uuid)
-        , name VARCHAR(255) NOT NULL, sort_order INTEGER NOT NULL, PRIMARY KEY(id))');
+        , name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_2D737AEFB16D08A7 ON section (checklist_id)');
         $this->addSql('CREATE TABLE template (id CHAR(36) NOT NULL --(DC2Type:uuid)
         , name VARCHAR(255) NOT NULL, template_file VARCHAR(255) NOT NULL, PRIMARY KEY(id))');

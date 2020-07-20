@@ -95,6 +95,7 @@ button {
     text-align: center;
 }
 
+.section .section-item .info.with-notes,
 .section .section-item .info:hover {
     background-color: var(--color-info);
     color: var(--color-primary-white);

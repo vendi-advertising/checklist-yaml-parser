@@ -16,8 +16,13 @@ use Symfony\Contracts\Cache\CacheInterface;
 
 class SampleController extends AbstractController
 {
-    public function index(CacheInterface $cache, ItemRepository $itemRepository, ChecklistRepository $checklistRepository, string $checklistId): Response
+    public function index(CacheInterface $cache, ChecklistRepository $checklistRepository, string $checklistId): Response
     {
+
+        if (!$checklistRepository->find($checklistId)) {
+            throw new \RuntimeException('The selected checklist does not exist');
+        }
+
         $checklist = $cache->get(
             'checklist-' . $checklistId,
             static function () use ($checklistRepository, $checklistId) {
@@ -77,7 +82,7 @@ class SampleController extends AbstractController
         $user = $security->getUser();
         assert($user instanceof User);
 
-        $note = (new Note())->setText($noteText)->setItem($item);
+        $note = (new Note())->setText($noteText)->setItem($item)->setUser($user);
 
         $entityManager->persist($note);
         $entityManager->flush();
