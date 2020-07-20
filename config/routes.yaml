@@ -24,9 +24,11 @@ checklist_entry_update:
     path: /checklist/{checklistId}/updateEntry
     controller: App\Controller\SampleController::entry_update
     methods: POST
-    defaults:
-        _format: json
 
+checklist_add_note:
+    path: /checklist/{checklistId}/add-note
+    controller: App\Controller\SampleController::add_note
+    methods: POST
 
 app_login:
     path: /login

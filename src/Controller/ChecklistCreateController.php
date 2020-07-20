@@ -115,13 +115,13 @@ class ChecklistCreateController extends AbstractController
             foreach ($sectionIds as $sectionId => $itemIds) {
                 foreach ($baseChecklist->getSections() as $baseSection) {
                     if ($sectionId === $baseSection->getHash()) {
-                        $realSection = (new Section())->setName($baseSection->getName())->setSortOrder($baseSection->getSortOrder());
+                        $realSection = (new Section())->setName($baseSection->getName());
 
                         foreach ($itemIds as $itemId) {
                             foreach ($baseSection->getItems() as $baseItem) {
                                 if ($itemId === $baseItem->getHash()) {
                                     $realSection->addItem(
-                                        (new Item())->setName($baseItem->getName())->setSortOrder($baseItem->getSortOrder())
+                                        (new Item())->setName($baseItem->getName())
                                     );
                                 }
                             }

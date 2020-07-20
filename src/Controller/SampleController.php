@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Entry;
+use App\Entity\Note;
 use App\Entity\User;
 use App\Repository\ChecklistRepository;
 use App\Repository\ItemRepository;
@@ -32,6 +33,7 @@ class SampleController extends AbstractController
                 'pusher_app_key' => 'aca6b37753a9e751466d', //getenv('PUSHER_KEY'),
                 'pusher_auth_endpoint' => $this->generateUrl('pusher_authenticate'),
                 'update_url' => $this->generateUrl('checklist_entry_update', ['checklistId' => $checklistId]),
+                'note_url' => $this->generateUrl('checklist_add_note', ['checklistId' => $checklistId]),
             ]);
     }
 
@@ -53,6 +55,31 @@ class SampleController extends AbstractController
         $entry = (new Entry())->setValue($value)->setUser($user)->setChecklistItem($item);
 
         $entityManager->persist($entry);
+        $entityManager->flush();
+
+        $cache->delete('checklist-' . $checklistId);
+
+        return $this->json(['status' => 'success']);
+    }
+
+    public function add_note(CacheInterface $cache, EntityManagerInterface $entityManager, Security $security, ChecklistRepository $checklistRepository, ItemRepository $itemRepository, Request $request, string $checklistId)
+    {
+        $noteText = $request->request->get('noteText');
+        $itemId = $request->request->get('itemId');
+
+        $checklist = $checklistRepository->find($checklistId);
+
+        assert($checklist !== null);
+        $item = $itemRepository->find($itemId);
+        assert($item !== null);
+        assert($checklist->hasItem($item));
+
+        $user = $security->getUser();
+        assert($user instanceof User);
+
+        $note = (new Note())->setText($noteText)->setItem($item);
+
+        $entityManager->persist($note);
         $entityManager->flush();
 
         $cache->delete('checklist-' . $checklistId);

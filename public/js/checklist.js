@@ -226,6 +226,51 @@
                                 () => {
                                     const modal = getOrCreateModal();
                                     document.documentElement.classList.add( 'modal-visible' );
+                                    const itemIdField = modal.querySelector( '#item-id' );
+                                    itemIdField.value = button.getAttribute( MAGIC_ATTRIBUTE_NAME_DATA_TARGET );
+                                }
+                            )
+                        ;
+                    }
+                )
+            ;
+        },
+
+        setupModalClickListener = () => {
+            const
+                modal = document.querySelector( MAGIC_SELECTOR_MODAL ),
+                button = modal.querySelector( 'button' )
+            ;
+
+            button
+                .addEventListener(
+                    'click',
+                    ( evt ) => {
+
+                        evt.preventDefault();
+
+                        button.disabled = true;
+
+                        const
+                            item = modal.querySelector( '#item-id' ),
+                            note = modal.querySelector( '#note-text' ),
+                            itemId = item.value,
+                            noteText = note.value
+                        ;
+
+                        window
+                            .ajax
+                            .post(
+                                window.VENDI_CHECKLIST_NOTE_URL,
+                                {
+                                    noteText: noteText,
+                                    itemId: itemId,
+                                },
+                                () => {
+                                    item.value = '';
+                                    note.value = '';
+                                    document.documentElement.classList.remove( 'modal-visible' );
+                                    button.disabled = false;
                                 }
                             )
                         ;
@@ -235,6 +280,7 @@
         },
 
         load = () => {
+            setupModalClickListener();
             setupRadios();
             setupNotes();
             setupNewNoteLinks();

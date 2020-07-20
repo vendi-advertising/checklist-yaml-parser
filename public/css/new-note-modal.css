@@ -22,16 +22,22 @@
     z-index: -1;
 }
 
-/*.modal-visible*/
-.modal-container {
+.modal-container .modal-content > * {
+    opacity: 0;
+}
+
+.modal-visible .modal-container {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 2;
 }
 
-/*.modal-visible*/
-.modal-container .modal-content {
+.modal-visible .modal-container .modal-content {
     top: 10rem;
     z-index: 2;
+}
+
+.modal-visible .modal-container .modal-content > * {
+    opacity: 1;
 }
 
 .modal-form {
@@ -50,4 +56,9 @@
     background-color: var(--color-brand-red);
     color: var(--color-primary-white);
     padding: 1rem 2rem;
+}
+
+.modal-form button[disabled] {
+    background-color: var(--color-primary-grey8);
+    cursor: wait;
 }

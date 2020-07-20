@@ -43,14 +43,15 @@
                             {{ item.name }}
                         </label>
                         <span class="info" data-show-hide-notes="{{ item.id }}">ℹ</span>
-                        <div class="notes" data-item-notes-id="{{ item.id }}">
-                            <ul class="note-list" data-role="notes">
-                                <li>Note 1</li>
-                                <li>Note 2</li>
-                                <li>
+                        <div class="notes" data-item-notes-id="{{ item.id }}" data-note-count="{{ item.notes | length }}">
+                            <ol class="note-list" data-role="notes">
+                                {% for note in item.notes %}
+                                    <li>{{ note.text }}</li>
+                                {% endfor %}
+                                <li class="new-note-link-holder">
                                     <button class="new-note-link" data-role="new-note" data-target="{{ item.id }}">Add a note</button>
                                 </li>
-                            </ul>
+                            </ol>
                         </div>
                     </li>
                 {% endfor %}
@@ -61,6 +62,7 @@
     <div class="modal-container" data-role="new-note-modal">
         <div class="modal-content">
             <form class="modal-form">
+                <input type="hidden" name="item-id" id="item-id"/>
                 <label for="note-text">Note text</label>
                 <textarea name="note-text" id="note-text"></textarea>
                 <div>
@@ -77,6 +79,7 @@
         window.VENDI_CHECKLIST_APP_KEY = '{{ pusher_app_key }}';
         window.VENDI_CHECKLIST_AUTH_ENDPOINT = '{{ pusher_auth_endpoint }}';
         window.VENDI_CHECKLIST_UPDATE_URL = '{{ update_url }}';
+        window.VENDI_CHECKLIST_NOTE_URL = '{{ note_url }}';
     </script>
     <script src="{{ asset('/js/ajax.js') }}"></script>
     <script src="{{ asset('/js/checklist.js') }}"></script>

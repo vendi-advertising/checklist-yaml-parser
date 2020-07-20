@@ -118,6 +118,15 @@ button {
     cursor: pointer;
 }
 
+.section .section-item .notes .note-list > * {
+    list-style-type: decimal;
+    margin-left: 5rem;
+}
+
+.section .section-item .notes .note-list .new-note-link-holder {
+    list-style-type: circle;
+}
+
 .section .section-item:last-child {
     border-bottom: none;
 }
