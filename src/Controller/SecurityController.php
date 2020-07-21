@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -30,7 +31,7 @@ class SecurityController extends AbstractController
         throw new \Exception('This method can be blank - it will be intercepted by the logout key on your firewall');
     }
 
-    public function pusher_authenticate(Request $request, Pusher $pusher): Response
+    public function pusher_authenticate(Request $request, Pusher $pusher, Security $security): Response
     {
         $channel_name = $request->request->get('channel_name');
         $socket_id = $request->request->get('socket_id');

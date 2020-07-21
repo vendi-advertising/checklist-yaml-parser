@@ -137,7 +137,7 @@
                                             }
                                         );
 
-                                    console.dir( evt );
+                                    // console.dir( evt );
 
                                     parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_DONE );
                                     parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_NA );
@@ -156,7 +156,7 @@
             ;
         },
 
-        handleNoteToggle = ( evt ) => {
+        handleNoteToggle = ( evt, forceOpen ) => {
             const
                 obj = evt.currentTarget,
                 selector = `[${MAGIC_ATTRIBUTE_SHOW_ID_NOTE_ID}="${obj.getAttribute( MAGIC_ATTRIBUTE_SHOW_ID_NOTE_SELECTOR )}"`
@@ -169,13 +169,12 @@
                         const
                             ch = el.clientHeight,
                             sh = el.scrollHeight,
-                            isCollapsed = !ch,
+                            isCollapsed = true === forceOpen ? true : !ch,
                             noHeightSet = !el.style.height
                         ;
-
                         el.style.height = (isCollapsed || noHeightSet ? sh : 0) + 'px';
                         if ( noHeightSet ) {
-                            return handleNoteToggle( { currentTarget: obj } );
+                            return handleNoteToggle( { currentTarget: obj }, true === forceOpen ? forceOpen : null );
                         }
                     }
                 )
@@ -192,27 +191,13 @@
                 )
             ;
         },
-        //
-        // createModal = () => {
-        //     const
-        //         modalContainer = document.createElement( 'div' ),
-        //         modal = document.createElement( 'div' )
-        //     ;
-        //
-        //     modalContainer.classList.add( 'modal-container' );
-        //     modalContainer.setAttribute( MAGIC_ATTRIBUTE_NAME_DATA_ROLE, MAGIC_ATTRIBUTE_ROLE_VALUE_MODAL_NEW_NOTE );
-        //     modal.classList.add( 'modal-content' );
-        //     modalContainer.appendChild( modal );
-        //     document.body.appendChild( modalContainer );
-        //     return modalContainer;
-        // },
 
         getModal = () => {
             return document.querySelector( MAGIC_SELECTOR_MODAL );
         },
 
         getOrCreateModal = () => {
-            return getModal();// || createModal();
+            return getModal();
         },
 
         setupNewNoteLinks = () => {
@@ -279,11 +264,62 @@
             ;
         },
 
+        setupPusher = () => {
+            Pusher.logToConsole = true;
+
+            const
+                me = window.VENDI_USER_ID,
+                pusher = new Pusher(
+                    window.VENDI_CHECKLIST_APP_KEY,
+                    {
+                        cluster: window.VENDI_CHECKLIST_CLUSTER,
+                        authEndpoint: window.VENDI_CHECKLIST_AUTH_ENDPOINT,
+                    }
+                ),
+                channel = pusher.subscribe( 'private-' + window.VENDI_CHECKLIST_ID )
+            ;
+
+            channel
+                .bind(
+                    window.VENDI_NEW_NOTE_EVENT,
+                    function ( data ) {
+                        const realData = JSON.parse( data );
+
+                        const checkListElement = document.querySelector( `[data-entity-type~=checklist][data-entity-id="${realData.checklist}"]` );
+                        const sectionElement = checkListElement.querySelector( `[data-entity-type~=section][data-entity-id="${realData.section}"]` );
+                        const itemElement = checkListElement.querySelector( `[data-entity-type~=item][data-entity-id="${realData.item}"]` );
+                        const noteContainer = itemElement.querySelector( '[data-role="notes"]' );
+                        // const noteContainerContainer = noteContainer.parentNode;
+                        const newNoteListItem = noteContainer.querySelector( '[data-role="new-note-item"]' );
+                        const infoButton = itemElement.querySelector( `[data-show-hide-notes="${realData.item}"]` )
+
+                        const li = document.createElement( 'li' );
+                        li.setAttribute( 'data-entity-type', 'note' );
+                        li.setAttribute( 'data-entity-id', realData.noteId );
+
+                        noteContainer.insertBefore( li, newNoteListItem );
+                        infoButton.setAttribute( 'data-note-count', realData.newNoteCountForItem )
+                        infoButton.classList.add( 'with-notes' );
+
+                        handleNoteToggle(
+                            { currentTarget: infoButton },
+                            true
+                        );
+
+                        console.dir( realData );
+                    }
+                )
+            ;
+
+
+        },
+
         load = () => {
             setupModalClickListener();
             setupRadios();
             setupNotes();
             setupNewNoteLinks();
+            setupPusher();
         },
 
         //Kick everything off

@@ -8,11 +8,12 @@ use App\Repository\EntryRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Fresh\DoctrineEnumBundle\Validator\Constraints as DoctrineAssert;
+use JsonSerializable;
 
 /**
  * @ORM\Entity(repositoryClass=EntryRepository::class)
  */
-class Entry
+class Entry implements JsonSerializable
 {
     use UuidAsIdTrait;
     use DateTimeCreatedTrait;
@@ -71,5 +72,13 @@ class Entry
     {
         $this->value = $value;
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'value' => $this->getValue(),
+        ];
     }
 }

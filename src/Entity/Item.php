@@ -8,11 +8,12 @@ use App\Repository\ItemRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * @ORM\Entity(repositoryClass=ItemRepository::class)
  */
-class Item extends HashableObject
+class Item extends HashableObject implements JsonSerializable
 {
     use UuidAsIdTrait;
 
@@ -161,5 +162,15 @@ class Item extends HashableObject
         }
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'notes' => $this->getNotes()->toArray(),
+            'entries' => $this->getEntries()->toArray(),
+        ];
     }
 }

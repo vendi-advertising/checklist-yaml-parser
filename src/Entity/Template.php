@@ -6,11 +6,12 @@ use App\Entity\Traits\UuidAsIdTrait;
 use App\Hashing\HashableObject;
 use App\Repository\TemplateRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * @ORM\Entity(repositoryClass=TemplateRepository::class)
  */
-class Template extends HashableObject
+class Template extends HashableObject implements JsonSerializable
 {
     use UuidAsIdTrait;
 
@@ -52,6 +53,14 @@ class Template extends HashableObject
     {
         return [
             'id',
+        ];
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'name' => $this->getName(),
+            'templateFile' => $this->getTemplateFile(),
         ];
     }
 }

@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Item;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +19,31 @@ class ItemRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Item::class);
+    }
+
+    public function findOneByIdOrThrow(string $id): Item
+    {
+        $obj = $this->find($id);
+        assert($obj !== null);
+        return $obj;
+    }
+
+    /**
+     * @param string $itemId
+     *
+     * @return int
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countNotes(string $itemId): int
+    {
+        return $this->createQueryBuilder('i')
+            ->leftJoin('i.notes', 'n')
+            ->andWhere('i.id = :val')
+            ->setParameter('val', $itemId)
+            ->select('count(n)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     // /**

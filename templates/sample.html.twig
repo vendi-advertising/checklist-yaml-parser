@@ -7,62 +7,65 @@
 
 {% block body %}
     <h1>{{ checklist.description }}</h1>
-    {% for section in checklist.sections %}
-        <div class="section">
-            <h2 class="section-header">
-                <span>{{ section.name }}</span><span class="percentage" data-role="percentage-complete">0%</span></h2>
-            <ul class="section-items">
-                {% for item in section.items %}
-                    {% set value = item.getLastEntryValue %}
-                    <li class="section-item {{ value }}">
-                        <label class="clicker-for-nope" for="nope_{{ item.id }}">
-                            X
-                        </label>
-                        <label class="container-for-nope">
-                            <input type="radio" name="{{ item.id }}" id="nope_{{ item.id }}" value="nope"
-                                    {% if value == 'nope' %}
-                                        checked
-                                    {% endif %}
-                            />
-                            Not done
-                        </label>
-                        <label>
-                            <input type="radio" name="{{ item.id }}" value="na"
-                                    {% if value == 'na' %}
-                                        checked
-                                    {% endif %}
-                            />
-                            n/a
-                        </label>
-                        <label>
-                            <input type="radio" name="{{ item.id }}" value="done"
-                                    {% if value == 'done' %}
-                                        checked
-                                    {% endif %}
-                            />
-                            {{ item.name }}
-                        </label>
-                        <span class="info
+    <div class="checklist" data-entity-type="checklist" data-entity-id="{{ checklist.id }}">
+        {% for section in checklist.sections %}
+            <div class="section" data-entity-type="section" data-entity-id="{{ section.id }}">
+                <h2 class="section-header">
+                    <span>{{ section.name }}</span><span class="percentage" data-role="percentage-complete">0%</span>
+                </h2>
+                <ul class="section-items">
+                    {% for item in section.items %}
+                        {% set value = item.getLastEntryValue %}
+                        <li class="section-item {{ value }}" data-entity-type="item" data-entity-id="{{ item.id }}">
+                            <label class="clicker-for-nope" for="nope_{{ item.id }}">
+                                X
+                            </label>
+                            <label class="container-for-nope">
+                                <input type="radio" name="{{ item.id }}" id="nope_{{ item.id }}" value="nope"
+                                        {% if value == 'nope' %}
+                                            checked
+                                        {% endif %}
+                                />
+                                Not done
+                            </label>
+                            <label>
+                                <input type="radio" name="{{ item.id }}" value="na"
+                                        {% if value == 'na' %}
+                                            checked
+                                        {% endif %}
+                                />
+                                n/a
+                            </label>
+                            <label>
+                                <input type="radio" name="{{ item.id }}" value="done"
+                                        {% if value == 'done' %}
+                                            checked
+                                        {% endif %}
+                                />
+                                {{ item.name }}
+                            </label>
+                            <span class="info
                         {% if item.notes|length %}
                         with-notes
                         {% endif %}
-" data-show-hide-notes="{{ item.id }}">ℹ</span>
-                        <div class="notes" data-item-notes-id="{{ item.id }}" data-note-count="{{ item.notes | length }}">
-                            <ol class="note-list" data-role="notes">
-                                {% for note in item.notes %}
-                                    <li>{{ note.text }}</li>
-                                {% endfor %}
-                                <li class="new-note-link-holder">
-                                    <button class="new-note-link" data-role="new-note" data-target="{{ item.id }}">Add a note</button>
-                                </li>
-                            </ol>
-                        </div>
-                    </li>
-                {% endfor %}
+                        " data-show-hide-notes="{{ item.id }}">ℹ</span>
+                            <div class="notes" data-item-notes-id="{{ item.id }}" data-note-count="{{ item.notes | length }}">
+                                <ol class="note-list" data-role="notes">
+                                    {% for note in item.notes %}
+                                        <li data-entity-type="note" data-entity-id="{{ note.id }}">{{ note.text }}</li>
+                                    {% endfor %}
+                                    <li class="new-note-link-holder" data-role="new-note-item">
+                                        <button class="new-note-link" data-role="new-note" data-target="{{ item.id }}">Add a note</button>
+                                    </li>
+                                </ol>
+                            </div>
+                        </li>
+                    {% endfor %}
 
-            </ul>
-        </div>
-    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
     <div class="modal-container" data-role="new-note-modal">
         <div class="modal-content">
             <form class="modal-form">
@@ -81,9 +84,13 @@
     <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
     <script>
         window.VENDI_CHECKLIST_APP_KEY = '{{ pusher_app_key }}';
+        window.VENDI_CHECKLIST_CLUSTER = '{{ pusher_cluster }}';
         window.VENDI_CHECKLIST_AUTH_ENDPOINT = '{{ pusher_auth_endpoint }}';
         window.VENDI_CHECKLIST_UPDATE_URL = '{{ update_url }}';
         window.VENDI_CHECKLIST_NOTE_URL = '{{ note_url }}';
+        window.VENDI_CHECKLIST_ID = '{{ checklist.id }}';
+        window.VENDI_USER_ID = '{{ user_id }}';
+        window.VENDI_NEW_NOTE_EVENT = '{{ new_note_event }}';
     </script>
     <script src="{{ asset('/js/ajax.js') }}"></script>
     <script src="{{ asset('/js/checklist.js') }}"></script>

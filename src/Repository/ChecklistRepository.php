@@ -36,6 +36,13 @@ class ChecklistRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function findOneByIdOrThrow(string $id): Checklist
+    {
+        $obj = $this->find($id);
+        assert($obj !== null);
+        return $obj;
+    }
+
     // /**
     //  * @return Checklist[] Returns an array of ChecklistSession objects
     //  */
