@@ -83,13 +83,13 @@
 {% block javascripts %}
     <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
     <script>
-        window.VENDI_CHECKLIST_APP_KEY = '{{ pusher_app_key }}';
+        window.VENDI_CHECKLIST_APP_KEY = '{{ pusher_key }}';
         window.VENDI_CHECKLIST_CLUSTER = '{{ pusher_cluster }}';
-        window.VENDI_CHECKLIST_AUTH_ENDPOINT = '{{ pusher_auth_endpoint }}';
-        window.VENDI_CHECKLIST_UPDATE_URL = '{{ update_url }}';
-        window.VENDI_CHECKLIST_NOTE_URL = '{{ note_url }}';
+        window.VENDI_CHECKLIST_AUTH_ENDPOINT = '{{ url('pusher_authenticate') }}';
+        window.VENDI_CHECKLIST_UPDATE_URL = '{{ url('checklist_entry_update', {checklistId: checklist.id}) }}';
+        window.VENDI_CHECKLIST_NOTE_URL = '{{ url('checklist_add_note', {checklistId: checklist.id}) }}';
         window.VENDI_CHECKLIST_ID = '{{ checklist.id }}';
-        window.VENDI_USER_ID = '{{ user_id }}';
+        window.VENDI_USER_ID = '{{ user.id }}';
         window.VENDI_NEW_NOTE_EVENT = '{{ new_note_event }}';
     </script>
     <script src="{{ asset('/js/ajax.js') }}"></script>

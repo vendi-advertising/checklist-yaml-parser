@@ -1,2 +1,5 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    globals:
+        pusher_key: '%env(PUSHER_KEY)%'
+        pusher_cluster: '%env(PUSHER_CLUSTER)%'

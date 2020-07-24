@@ -224,7 +224,21 @@
         setupModalClickListener = () => {
             const
                 modal = document.querySelector( MAGIC_SELECTOR_MODAL ),
+                modalContent = modal.firstChild,
                 button = modal.querySelector( 'button' )
+            ;
+
+            modal
+                .addEventListener(
+                    'click',
+                    ( evt ) => {
+                        if ( document.documentElement.classList.contains( 'modal-visible' ) ) {
+                            if ( !modalContent.contains( evt.target ) ) {
+                                document.documentElement.classList.remove( 'modal-visible' );
+                            }
+                        }
+                    }
+                )
             ;
 
             button

@@ -23,7 +23,7 @@ class Item extends HashableObject implements JsonSerializable
     private ?string $name = null;
 
     /**
-     * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="checklistItem", orphanRemoval=true, fetch="EAGER")
+     * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="checklistItem", orphanRemoval=true)
      */
     private Collection $entries;
 
@@ -34,8 +34,7 @@ class Item extends HashableObject implements JsonSerializable
     private ?Section $section = null;
 
     /**
-     * @ORM\OneToMany(targetEntity=Note::class, mappedBy="item", orphanRemoval=true, cascade={"persist"},
-     *                                          fetch="EAGER")
+     * @ORM\OneToMany(targetEntity=Note::class, mappedBy="item", orphanRemoval=true, cascade={"persist"})
      */
     private ?Collection $notes = null;
 

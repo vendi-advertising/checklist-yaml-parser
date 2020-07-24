@@ -23,7 +23,7 @@ checklist_create_done:
 
 checklist:
     path: /checklist/{checklistId}
-    controller: App\Controller\SampleController::index
+    controller: App\Controller\SampleController::view_checklist
 
 checklist_entry_update:
     path: /checklist/{checklistId}/updateEntry

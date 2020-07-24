@@ -7,6 +7,12 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\ChecklistRepository;
 use App\Service\ChecklistFormHelper;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
+use JsonException;
+use Psr\Cache\InvalidArgumentException;
+use Pusher\PusherException;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,17 +21,26 @@ use Symfony\Contracts\Cache\CacheInterface;
 
 class SampleController extends AbstractController
 {
-    public function index(CacheInterface $cache, ChecklistRepository $checklistRepository, Security $security, string $checklistId): Response
+    /**
+     * @param CacheInterface      $cache
+     * @param ChecklistRepository $checklistRepository
+     * @param Security            $security
+     * @param string              $checklistId
+     *
+     * @return Response
+     * @throws InvalidArgumentException
+     */
+    public function view_checklist(CacheInterface $cache, ChecklistRepository $checklistRepository, Security $security, string $checklistId): Response
     {
 
         if (!$checklistRepository->find($checklistId)) {
-            throw new \RuntimeException('The selected checklist does not exist');
+            throw new RuntimeException('The selected checklist does not exist');
         }
 
         $checklist = $cache->get(
             'checklist-' . $checklistId,
             static function () use ($checklistRepository, $checklistId) {
-                return $checklistRepository->find($checklistId);
+                return $checklistRepository->findOneById($checklistId);
             }
         );
 
@@ -36,17 +51,18 @@ class SampleController extends AbstractController
             'sample.html.twig',
             [
                 'new_note_event' => ChecklistFormHelper::PUSHER_EVENT_NOTE_NOTE,
-                'user_first_name' => 'Chris',
-                'user_id' => $user->getId(),
+                'user' => $user,
                 'checklist' => $checklist,
-                'pusher_app_key' => $this->getParameter('pusherKey'),
-                'pusher_cluster' => $this->getParameter('pusherCluster'),
-                'pusher_auth_endpoint' => $this->generateUrl('pusher_authenticate'),
-                'update_url' => $this->generateUrl('checklist_entry_update', ['checklistId' => $checklistId]),
-                'note_url' => $this->generateUrl('checklist_add_note', ['checklistId' => $checklistId]),
             ]);
     }
 
+    /**
+     * @param Request             $request
+     * @param ChecklistFormHelper $checklistFormHelper
+     * @param string              $checklistId
+     *
+     * @return Response
+     */
     public function entry_update(Request $request, ChecklistFormHelper $checklistFormHelper, string $checklistId): Response
     {
 
@@ -58,7 +74,19 @@ class SampleController extends AbstractController
         return $this->json(['status' => 'success']);
     }
 
-    public function add_note(Request $request, ChecklistFormHelper $checklistFormHelper, string $checklistId)
+    /**
+     * @param Request             $request
+     * @param ChecklistFormHelper $checklistFormHelper
+     * @param string              $checklistId
+     *
+     * @return Response
+     * @throws InvalidArgumentException
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     * @throws JsonException
+     * @throws PusherException
+     */
+    public function add_note(Request $request, ChecklistFormHelper $checklistFormHelper, string $checklistId): Response
     {
         $noteText = $request->request->get('noteText');
         $itemId = $request->request->get('itemId');

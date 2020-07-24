@@ -30,8 +30,7 @@ class Section extends HashableObject implements JsonSerializable
     private ?Checklist $checklist = null;
 
     /**
-     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="section", orphanRemoval=true, cascade={"persist"},
-     *                                          fetch="EAGER")
+     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="section", orphanRemoval=true, cascade={"persist"})
      */
     private Collection $items;
 
