@@ -17,7 +17,7 @@
         }
     </style>
 
-    <form class="example-wrapper" method="post">
+    <form class="form-checklist-from-template" method="post">
         <input type="hidden" name="{{ tokenHtmlAttribute }}" value="{{ csrf_token(tokenId) }}"/>
         <h1>New checklist based on <em>{{ checklist.template.name }}</em></h1>
         <label for="checklistName">Checklist Name</label>
@@ -38,6 +38,12 @@
                 </li>
             {% endfor %}
         </ul>
-        <input type="submit" value="Create new checklist"/>
+
+        <button type="submit">Create new checklist</button>
     </form>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('checklist-create') }}
 {% endblock %}

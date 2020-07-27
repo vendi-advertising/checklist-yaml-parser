@@ -1,61 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:400,700&display=swap');
 
-:root {
-    --color-brand-red: #dc0928;
-    --color-brand-blue: #04d1f9;
-
-    --color-primary-grey8: #888;
-    --color-primary-green: #080;
-    --color-primary-white: #fff;
-    --color-primary-black: #000;
-    --color-primary-grey: #333;
-
-    --color-done: var(--color-primary-green);
-    --color-na: var(--color-primary-grey8);
-    --color-info: var(--color-brand-blue);
-}
-
-html {
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 62.5%;
-}
-
-body {
-    font-size: 1.6rem;
-    margin: 0 auto;
-    max-width: 100rem;
-    width: 100%;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    margin: 0;
-    padding: 0;
-}
-
-ul,
-li {
+.checklist ul,
+.checklist ul li {
     list-style-type: none;
     margin: 0;
     padding: 0;
-}
-
-button {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    display: inline-block;
-    font-family: sans-serif;
-    line-height: 1;
-    margin: 0;
-    text-align: center;
-    text-decoration: none;
 }
 
 .section {
@@ -155,13 +103,4 @@ button {
 .section .section-item.done .clicker-for-nope:hover {
     color: var(--color-primary-white);
     cursor: pointer;
-}
-
-@media (max-width: 100em) {
-    body {
-        box-sizing: border-box;
-        font-size: 2rem;
-        padding: 2rem;
-        width: 100%;
-    }
 }

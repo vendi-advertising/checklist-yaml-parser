@@ -21,6 +21,7 @@
     "symfony/templating": "5.1.*",
     "symfony/translation": "5.1.*",
     "symfony/twig-bundle": "5.1.*",
+    "symfony/webpack-encore-bundle": "^1.7",
     "symfony/yaml": "5.1.*",
     "webmozart/path-util": "^2.3"
   },

@@ -1,0 +1,40 @@
+:root {
+    --color-brand-red: #dc0928;
+    --color-brand-blue: #04d1f9;
+
+    --color-primary-grey8: #888;
+    --color-primary-green: #080;
+    --color-primary-white: #fff;
+    --color-primary-blue: #00f;
+    --color-primary-black: #000;
+    --color-primary-grey: #333;
+
+    --color-done: var(--color-primary-green);
+    --color-na: var(--color-primary-grey8);
+    --color-info: var(--color-brand-blue);
+
+    --color-monokai-background: #272822;
+    --color-monokai-foreground: #f8f8f2;
+    --color-monokai-red: #f92672;
+    --color-monokai-green: #a6e22e;
+
+    --color-background-primary: var(--color-primary-white);
+    --color-foreground-primary: var(--color-primary-black);
+
+    --color-background-button: var(--color-monokai-red);
+    --color-foreground-button: var(--color-primary-white);
+
+    --color-foreground-link: var(--color-primary-blue);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-background-primary: var(--color-monokai-background);
+        --color-foreground-primary: var(--color-monokai-foreground);
+
+        --color-background-button: var(--color-monokai-red);
+        --color-foreground-button: var(--color-primary-black);
+
+        --color-foreground-link: var(--color-monokai-green);
+    }
+}
