@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block title %}All Checklists{% endblock %}
+{% block body %}
+    <h1>All Checklists</h1>
+    <h2>{{ sort }} | {{ direction }}</h2>
+{#    {{ dump(checklists) }}#}
+{#    {% if groupBy == 'c' %}#}
+    <ul>
+        {% for list in checklists %}
+            <li>
+                <a href="#">
+                    {{ list.description }}
+                    <code>{{ list.dateTimeCreated | date('m/d/Y') }}</code>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -19,6 +19,18 @@ class ChecklistRepository extends ServiceEntityRepository
         parent::__construct($registry, Checklist::class);
     }
 
+    public function findForListing(string $fixedSort = null, string $fixedDirection = null)
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.template', 't')
+            ->leftJoin('c.createdBy', 'u')
+            ->addSelect('t')
+            ->addSelect('u')
+            ->addOrderBy($fixedSort, $fixedDirection)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findOneById(string $id): Checklist
     {
         return $this->createQueryBuilder('c')

@@ -13,6 +13,10 @@ checklist_create:
     path: /checklist/new
     controller: App\Controller\ChecklistCreateController::new
 
+checklist_list:
+    path: /checklist/list
+    controller: App\Controller\ChecklistCreateController::list
+
 checklist_create_with_template:
     path: /checklist/new/{templateId}
     controller: App\Controller\ChecklistCreateController::new_with_template

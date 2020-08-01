@@ -34,6 +34,45 @@ class ChecklistCreateController extends AbstractController
         );
     }
 
+    private function fixSort(string $sort = null): string
+    {
+        switch ($sort) {
+            case 'c.dateTimeCreated':
+            case 'c.description':
+            case 't.dateTimeCreated':
+            case 't.name':
+            case 'u.email':
+                break;
+
+            default:
+                $sort = 'c.dateTimeCreated';
+        }
+
+        return $sort;
+    }
+
+    private function fixDirection(string $direction = null): string
+    {
+        return in_array($direction, ['ASC', 'DESC']) ? $direction : 'DESC';
+    }
+
+    public function list(ChecklistRepository $checklistRepository, Request $request): Response
+    {
+        $fixedSort = $this->fixSort($request->query->get('sort'));
+        $fixedDirection = $this->fixDirection($request->query->get('direction'));
+        $sortTable = explode('.', $fixedSort)[0];
+        $checklists = $checklistRepository->findForListing($fixedSort, $fixedDirection);
+        return $this->render(
+            'checklist.html.twig',
+            [
+                'checklists' => $checklists,
+                'sort' => $fixedSort,
+                'direction' => $fixedDirection,
+                'groupBy' => $sortTable,
+            ]
+        );
+    }
+
     public function new(TemplateRepository $templateRepository): Response
     {
         $templates = $templateRepository->findAll();
