@@ -1,7 +1,7 @@
 /*jslint esversion: 6, maxparams: 5, maxdepth: 4, maxstatements: 20, maxcomplexity: 8 */
 /* eslint-disable no-unused-vars */
 
-(function ( global ) {
+export default function ( global ) {
     const
         ajax = {}
     ;
@@ -86,5 +86,4 @@
     };
 
     global.ajax = ajax;
-
-}( window ));
+};

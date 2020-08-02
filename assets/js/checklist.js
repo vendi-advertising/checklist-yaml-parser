@@ -1,7 +1,9 @@
-(function () {
-    'use strict';                         //Force strict mode
+import Pusher from 'pusher-js/with-encryption';
 
+export default function ( global ) {
     const
+
+        document = global.document,
 
         MAGIC_CSS_CLASS_FOR_NA = 'na',
         MAGIC_CSS_CLASS_FOR_DONE = 'done',
@@ -344,4 +346,4 @@
     ;
 
     init();
-}());
+};

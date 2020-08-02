@@ -1,10 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('checklist') }}
-{% endblock %}
-
 {% block body %}
     <h1>{{ checklist.description }}</h1>
     <div class="checklist" data-entity-type="checklist" data-entity-id="{{ checklist.id }}">
@@ -80,8 +75,12 @@
     </div>
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('checklist') }}
+{% endblock %}
+
 {% block javascripts %}
-    <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
     <script>
         window.VENDI_CHECKLIST_APP_KEY = '{{ pusher_key }}';
         window.VENDI_CHECKLIST_CLUSTER = '{{ pusher_cluster }}';
@@ -92,6 +91,5 @@
         window.VENDI_USER_ID = '{{ user.id }}';
         window.VENDI_NEW_NOTE_EVENT = '{{ new_note_event }}';
     </script>
-    <script src="{{ asset('/js/ajax.js') }}"></script>
-    <script src="{{ asset('/js/checklist.js') }}"></script>
+    {{ encore_entry_script_tags('checklist') }}
 {% endblock %}
