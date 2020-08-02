@@ -2,17 +2,43 @@
 {% block title %}All Checklists{% endblock %}
 {% block body %}
     <h1>All Checklists</h1>
-    <h2>{{ sort }} | {{ direction }}</h2>
-{#    {{ dump(checklists) }}#}
-{#    {% if groupBy == 'c' %}#}
-    <ul>
-        {% for list in checklists %}
-            <li>
-                <a href="#">
-                    {{ list.description }}
-                    <code>{{ list.dateTimeCreated | date('m/d/Y') }}</code>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="checklist-listing group-by-template">
+        <ul class="outer-group">
+            {% for template in templates %}
+                <li class="outer-group-item">
+                    <h2 class="outer-group-header">{{ template.name }}</h2>
+                    <ul class="inner-group">
+                        {% if template.checklists %}
+                            {% for list in template.checklists %}
+                                <li class="inner-group-item">
+                                    <a href="{{ path('checklist', {'checklistId': list.id}) }}">
+                                        {{ list.description }}
+                                    </a>
+                                    <span title="{{ list.calculateChecklistStatus.percentDone | number_format('2') }} percent complete">
+                                        {{ list.calculateChecklistStatus.percentDone | number_format('0') }}%
+                                    </span>
+                                    <time datetime="{{ list.dateTimeCreated | date('Y-m-d H:i:s') }}">
+                                        {{ list.dateTimeCreated | date('m/d/Y') }}
+                                    </time>
+                                    <a href="#">
+                                        {{ list.createdBy.displayName }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                        <li class="inner-group-item new-from-template">
+                            <a href="{{ path('checklist_create_with_template', {'templateId': template.id}) }}">
+                                Create new checklist from this template
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('checklist-listing') }}
+{% endblock %}
+

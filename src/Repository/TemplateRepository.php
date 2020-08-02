@@ -19,32 +19,21 @@ class TemplateRepository extends ServiceEntityRepository
         parent::__construct($registry, Template::class);
     }
 
-    // /**
-    //  * @return Template[] Returns an array of Template objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findForListing()
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('t')
+            ->leftJoin('t.checklists', 'c')
+            ->leftJoin('c.createdBy', 'u')
+            ->leftJoin('c.sections', 's')
+            ->leftJoin('s.items', 'i')
+            ->leftJoin('i.entries', 'e')
+            ->addSelect('c')
+            ->addSelect('u')
+            ->addSelect('s')
+            ->addSelect('i')
+            ->addSelect('e')
+            ->addOrderBy('t.name')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Template
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

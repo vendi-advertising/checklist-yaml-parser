@@ -11,6 +11,7 @@ Encore
     .addEntry( 'logic', './assets/js/webpack-login.js' )
     .addEntry( 'checklist-create', './assets/js/webpack-checklist-create.js' )
     .addEntry( 'checklist', './assets/js/webpack-checklist.js' )
+    .addEntry( 'checklist-listing', './assets/js/webpack-checklist-listing.js' )
     .splitEntryChunks()
     .enableSingleRuntimeChunk()
     .configureUrlLoader( {

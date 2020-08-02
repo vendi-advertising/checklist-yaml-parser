@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\DBAL\Types\ItemStatus;
+use App\DTO\ChecklistStatus;
 use App\Entity\Traits\DateTimeCreatedTrait;
 use App\Entity\Traits\UuidAsIdTrait;
 use App\Hashing\HashableObject;
@@ -41,6 +43,8 @@ class Checklist extends HashableObject implements JsonSerializable
      * @ORM\OneToMany(targetEntity=Section::class, mappedBy="checklist", orphanRemoval=true, cascade={"persist"})
      */
     private Collection $sections;
+
+    private ?ChecklistStatus $checklistStatus = null;
 
     public function __construct()
     {
@@ -144,5 +148,29 @@ class Checklist extends HashableObject implements JsonSerializable
             'template' => $this->getTemplate(),
             'sections' => $this->getSections()->toArray(),
         ];
+    }
+
+    public function calculateChecklistStatus(): ChecklistStatus
+    {
+        if (!$this->checklistStatus) {
+            $this->checklistStatus = new ChecklistStatus();
+            foreach ($this->getSections() as $section) {
+                foreach ($section->getItems() as $item) {
+                    switch ($item->getLastEntryValue()) {
+                        case ItemStatus::CHECKED:
+                            $this->checklistStatus->incrementCompletedItems();
+                            break;
+                        case ItemStatus::NOT_APPLICABLE:
+                            $this->checklistStatus->incrementNotApplicableItems();
+                            break;
+                        case ItemStatus::NOT_SET;
+                            $this->checklistStatus->incrementIncompleteItems();
+                            break;
+                    }
+                }
+            }
+        }
+
+        return $this->checklistStatus;
     }
 }

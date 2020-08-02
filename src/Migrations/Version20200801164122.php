@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200720015658 extends AbstractMigration
+final class Version20200801164122 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -53,7 +53,7 @@ final class Version20200720015658 extends AbstractMigration
         , name VARCHAR(255) NOT NULL, template_file VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE user (id CHAR(36) NOT NULL --(DC2Type:uuid)
         , email VARCHAR(255) NOT NULL, roles CLOB NOT NULL --(DC2Type:json)
-        , password VARCHAR(255) NOT NULL, date_time_created DATETIME NOT NULL, PRIMARY KEY(id))');
+        , password VARCHAR(255) NOT NULL, display_name VARCHAR(255) NOT NULL, date_time_created DATETIME NOT NULL, PRIMARY KEY(id))');
     }
 
     public function down(Schema $schema) : void

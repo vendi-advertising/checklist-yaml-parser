@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Traits\UuidAsIdTrait;
 use App\Hashing\HashableObject;
 use App\Repository\TemplateRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
@@ -24,6 +25,11 @@ class Template extends HashableObject implements JsonSerializable
      * @ORM\Column(type="string", length=255)
      */
     private ?string $templateFile = null;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Checklist", mappedBy="template")
+     */
+    private ?Collection $checklists = null;
 
     public function getName(): ?string
     {
@@ -62,5 +68,10 @@ class Template extends HashableObject implements JsonSerializable
             'name' => $this->getName(),
             'templateFile' => $this->getTemplateFile(),
         ];
+    }
+
+    public function getChecklists(): ?Collection
+    {
+        return $this->checklists;
     }
 }

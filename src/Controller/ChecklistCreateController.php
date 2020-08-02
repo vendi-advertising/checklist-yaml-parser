@@ -56,19 +56,22 @@ class ChecklistCreateController extends AbstractController
         return in_array($direction, ['ASC', 'DESC']) ? $direction : 'DESC';
     }
 
-    public function list(ChecklistRepository $checklistRepository, Request $request): Response
+    public function list(ChecklistRepository $checklistRepository, TemplateRepository $templateRepository, Request $request): Response
     {
-        $fixedSort = $this->fixSort($request->query->get('sort'));
-        $fixedDirection = $this->fixDirection($request->query->get('direction'));
-        $sortTable = explode('.', $fixedSort)[0];
-        $checklists = $checklistRepository->findForListing($fixedSort, $fixedDirection);
+//        $fixedSort = $this->fixSort($request->query->get('sort'));
+//        $fixedDirection = $this->fixDirection($request->query->get('direction'));
+
+//        $sortTable = explode('.', $fixedSort)[0];
+//        $checklists = $checklistRepository->findForListing($fixedSort, $fixedDirection);
+        $templates = $templateRepository->findForListing();
         return $this->render(
             'checklist.html.twig',
             [
-                'checklists' => $checklists,
-                'sort' => $fixedSort,
-                'direction' => $fixedDirection,
-                'groupBy' => $sortTable,
+//                'checklists' => $checklists,
+                'templates' => $templates,
+//                'sort' => $fixedSort,
+//                'direction' => $fixedDirection,
+//                'groupBy' => $sortTable,
             ]
         );
     }

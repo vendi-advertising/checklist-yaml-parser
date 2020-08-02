@@ -22,7 +22,7 @@ class User implements UserInterface, JsonSerializable
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $email = null;
+    private string $email;
 
     /**
      * @ORM\Column(type="json")
@@ -39,6 +39,11 @@ class User implements UserInterface, JsonSerializable
      */
     private ?Collection $checklists = null;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private string $displayName;
+
     public function getEmail(): ?string
     {
         return $this->email;
@@ -51,10 +56,12 @@ class User implements UserInterface, JsonSerializable
         return $this;
     }
 
-    public function __construct()
+    public function __construct(string $email, string $displayName)
     {
         $this->checklists = new ArrayCollection();
         $this->dateTimeCreated = new DateTimeImmutable();
+        $this->displayName = $displayName;
+        $this->email = $email;
     }
 
     /**
@@ -148,5 +155,17 @@ class User implements UserInterface, JsonSerializable
             'id' => $this->getId(),
             'email' => $this->getEmail(),
         ];
+    }
+
+    public function getDisplayName(): string
+    {
+        return $this->displayName;
+    }
+
+    public function setDisplayName(string $displayName): self
+    {
+        $this->displayName = $displayName;
+
+        return $this;
     }
 }
