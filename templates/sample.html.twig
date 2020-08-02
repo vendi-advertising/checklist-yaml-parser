@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Checklist: {{ checklist.description }}{% endblock %}
+
 {% block body %}
     <h1>{{ checklist.description }}</h1>
     <div class="checklist" data-entity-type="checklist" data-entity-id="{{ checklist.id }}">
