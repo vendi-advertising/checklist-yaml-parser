@@ -114,6 +114,19 @@ export default function ( global ) {
 
         },
 
+        setRowValue = ( item ) => {
+            const
+                parentRow = item.closest( 'li' ),
+                rowCssClass = getRowCssClass( item )
+            ;
+            parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_DONE );
+            parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_NA );
+            parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_NOPE );
+            parentRow.classList.add( rowCssClass );
+
+            updatePercentage( item );
+        },
+
         setupRadios = () => {
 
             // Handle the change event for all radio buttons (assumes there's no other
@@ -126,10 +139,6 @@ export default function ( global ) {
                             .addEventListener(
                                 'change',
                                 ( evt ) => {
-                                    const
-                                        parentRow = item.closest( 'li' ),
-                                        rowCssClass = getRowCssClass( item )
-                                    ;
 
                                     window
                                         .ajax
@@ -140,15 +149,7 @@ export default function ( global ) {
                                                 itemId: item.name,
                                             }
                                         );
-
-                                    // console.dir( evt );
-
-                                    parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_DONE );
-                                    parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_NA );
-                                    parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_NOPE );
-                                    parentRow.classList.add( rowCssClass );
-
-                                    updatePercentage( item );
+                                    setRowValue( item );
                                 }
                             )
                         ;
@@ -303,7 +304,7 @@ export default function ( global ) {
             channel
                 .bind(
                     window.VENDI_NEW_NOTE_EVENT,
-                    function ( data ) {
+                    ( data ) => {
                         const
                             realData = JSON.parse( data ),
                             checkListElement = document.querySelector( `[${MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_TYPE}~=checklist][${MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_ID}="${realData.checklist}"]` ),
@@ -313,6 +314,7 @@ export default function ( global ) {
                             infoButton = itemElement.querySelector( `[data-show-hide-notes="${realData.item}"]` ),
                             li = document.createElement( 'li' )
                         ;
+                        li.appendChild( document.createTextNode( realData.noteText ) );
                         li.setAttribute( 'data-entity-type', 'note' );
                         li.setAttribute( 'data-entity-id', realData.noteId );
 
