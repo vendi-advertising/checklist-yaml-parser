@@ -212,10 +212,13 @@ export default function ( global ) {
                         button
                             .addEventListener(
                                 'click',
-                                () => {
-                                    const modal = getOrCreateModal();
+                                ( evt ) => {
+                                    evt.stopPropagation();
+                                    const
+                                        modal = getOrCreateModal(),
+                                        itemIdField = modal.querySelector( '#item-id' )
+                                    ;
                                     document.documentElement.classList.add( 'modal-visible' );
-                                    const itemIdField = modal.querySelector( '#item-id' );
                                     itemIdField.value = button.getAttribute( MAGIC_ATTRIBUTE_NAME_DATA_TARGET );
                                 }
                             )
@@ -228,11 +231,11 @@ export default function ( global ) {
         setupModalClickListener = () => {
             const
                 modal = document.querySelector( MAGIC_SELECTOR_MODAL ),
-                modalContent = modal.firstChild,
+                modalContent = modal.firstElementChild,
                 button = modal.querySelector( 'button' )
             ;
 
-            modal
+            document
                 .addEventListener(
                     'click',
                     ( evt ) => {
