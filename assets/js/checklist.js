@@ -22,6 +22,8 @@ export default function ( global ) {
 
         MAGIC_ATTRIBUTE_NAME_DATA_ROLE = 'data-role',
         MAGIC_ATTRIBUTE_NAME_DATA_TARGET = 'data-target',
+        MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_TYPE = 'data-entity-type',
+        MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_ID = 'data-entity-id',
 
         MAGIC_ATTRIBUTE_ROLE_VALUE_NEW_NOTE = 'new-note',
         MAGIC_ATTRIBUTE_ROLE_VALUE_MODAL_NEW_NOTE = 'new-note-modal',
@@ -299,17 +301,15 @@ export default function ( global ) {
                 .bind(
                     window.VENDI_NEW_NOTE_EVENT,
                     function ( data ) {
-                        const realData = JSON.parse( data );
-
-                        const checkListElement = document.querySelector( `[data-entity-type~=checklist][data-entity-id="${realData.checklist}"]` );
-                        const sectionElement = checkListElement.querySelector( `[data-entity-type~=section][data-entity-id="${realData.section}"]` );
-                        const itemElement = checkListElement.querySelector( `[data-entity-type~=item][data-entity-id="${realData.item}"]` );
-                        const noteContainer = itemElement.querySelector( '[data-role="notes"]' );
-                        // const noteContainerContainer = noteContainer.parentNode;
-                        const newNoteListItem = noteContainer.querySelector( '[data-role="new-note-item"]' );
-                        const infoButton = itemElement.querySelector( `[data-show-hide-notes="${realData.item}"]` )
-
-                        const li = document.createElement( 'li' );
+                        const
+                            realData = JSON.parse( data ),
+                            checkListElement = document.querySelector( `[${MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_TYPE}~=checklist][${MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_ID}="${realData.checklist}"]` ),
+                            itemElement = checkListElement.querySelector( `[${MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_TYPE}~=item][${MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_ID}="${realData.item}"]` ),
+                            noteContainer = itemElement.querySelector( '[data-role="notes"]' ),
+                            newNoteListItem = noteContainer.querySelector( '[data-role="new-note-item"]' ),
+                            infoButton = itemElement.querySelector( `[data-show-hide-notes="${realData.item}"]` ),
+                            li = document.createElement( 'li' )
+                        ;
                         li.setAttribute( 'data-entity-type', 'note' );
                         li.setAttribute( 'data-entity-id', realData.noteId );
 
