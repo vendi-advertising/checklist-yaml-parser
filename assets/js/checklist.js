@@ -114,15 +114,14 @@ export default function ( global ) {
 
         },
 
-        setRowValue = ( item ) => {
+        setRowValue = ( item, value ) => {
             const
-                parentRow = item.closest( 'li' ),
-                rowCssClass = getRowCssClass( item )
+                parentRow = item.tagName === 'LI' ? item : item.closest( 'li' )
             ;
             parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_DONE );
             parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_NA );
             parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_NOPE );
-            parentRow.classList.add( rowCssClass );
+            parentRow.classList.add( value );
 
             updatePercentage( item );
         },
@@ -134,28 +133,34 @@ export default function ( global ) {
             document
                 .querySelectorAll( 'input[type=radio]' )
                 .forEach(
-                    ( item ) => {
-                        item
+                    ( radioButton ) => {
+                        radioButton
                             .addEventListener(
                                 'change',
                                 ( evt ) => {
+                                    const
+                                        rowCssClass = getRowCssClass( radioButton )
+                                    ;
 
-                                    window
-                                        .ajax
-                                        .post(
-                                            window.VENDI_CHECKLIST_UPDATE_URL,
-                                            {
-                                                value: item.value,
-                                                itemId: item.name,
-                                            }
-                                        );
-                                    setRowValue( item );
+                                    if ( !evt.detail || !evt.detail.source || 'remote' !== evt.detail.source ) {
+                                        window
+                                            .ajax
+                                            .post(
+                                                window.VENDI_CHECKLIST_UPDATE_URL,
+                                                {
+                                                    value: radioButton.value,
+                                                    itemId: radioButton.name,
+                                                }
+                                            );
+                                    }
+
+                                    setRowValue( radioButton, rowCssClass );
                                 }
                             )
                         ;
 
                         // Call this once to setup percentages on page load, too
-                        updatePercentage( item );
+                        updatePercentage( radioButton );
                     }
                 )
             ;
@@ -299,6 +304,23 @@ export default function ( global ) {
                     }
                 ),
                 channel = pusher.subscribe( 'private-' + window.VENDI_CHECKLIST_ID )
+            ;
+
+            channel
+                .bind(
+                    window.VENDI_STATUS_CHANGE_EVENT,
+                    ( data ) => {
+                        const
+                            realData = JSON.parse( data ),
+                            checkListElement = document.querySelector( `[${MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_TYPE}~=checklist][${MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_ID}="${realData.checklist}"]` ),
+                            itemElement = checkListElement.querySelector( `[${MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_TYPE}~=item][${MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_ID}="${realData.item}"]` ),
+                            radioButton = itemElement.querySelector( `input[type=radio][value=${realData.entryValue}]` ),
+                            customEvent = new CustomEvent( 'change', { detail: { source: 'remote' } } )
+                        ;
+                        radioButton.checked = true;
+                        radioButton.dispatchEvent( customEvent );
+                    }
+                )
             ;
 
             channel

@@ -19,7 +19,9 @@ use Symfony\Contracts\Cache\CacheInterface;
 
 class ChecklistFormHelper
 {
+    // TODO: Rename typo
     public const PUSHER_EVENT_NOTE_NOTE = 'checklist-new-note';
+    public const PUSHER_EVENT_STATUS_CHANGE = 'checklist-status-change';
 
     private CacheInterface $cache;
     private EntityManagerInterface $entityManager;
@@ -77,21 +79,34 @@ class ChecklistFormHelper
                 json_encode(
                     [
                         'checklist' => $checklist->getId(),
+                        //TODO: Is section needed?
                         'section' => $section->getId(),
                         'item' => $item->getId(),
                         'noteText' => $noteText,
                         'noteId' => $note->getId(),
                         'newNoteCountForItem' => $noteCount,
+                        'user' => $user,
                     ],
                     JSON_THROW_ON_ERROR
                 )
             );
     }
 
+    /**
+     * @param string $value
+     * @param string $itemId
+     * @param string $checklistId
+     *
+     * @throws InvalidArgumentException
+     * @throws JsonException
+     * @throws PusherException
+     */
     public function addNewEntry(string $value, string $itemId, string $checklistId): void
     {
         $checklist = $this->checklistRepository->findOneByIdOrThrow($checklistId);
         $item = $this->itemRepository->findOneByIdOrThrow($itemId);
+        $section = $item->getSection();
+        assert(null !== $section);
         assert($checklist->hasItem($item));
 
         $user = $this->security->getUser();
@@ -103,5 +118,23 @@ class ChecklistFormHelper
         $this->entityManager->flush();
 
         $this->cache->delete('checklist-' . $checklistId);
+
+        $this
+            ->pusher
+            ->trigger(
+                'private-' . $checklist->getId(),
+                self::PUSHER_EVENT_STATUS_CHANGE,
+                json_encode(
+                    [
+                        'checklist' => $checklist->getId(),
+                        //TODO: Is section needed?
+                        'section' => $section->getId(),
+                        'item' => $item->getId(),
+                        'entryValue' => $value,
+                        'user' => $user,
+                    ],
+                    JSON_THROW_ON_ERROR
+                )
+            );
     }
 }

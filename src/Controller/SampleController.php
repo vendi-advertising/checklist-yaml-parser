@@ -51,6 +51,7 @@ class SampleController extends AbstractController
             'sample.html.twig',
             [
                 'new_note_event' => ChecklistFormHelper::PUSHER_EVENT_NOTE_NOTE,
+                'status_change_event' => ChecklistFormHelper::PUSHER_EVENT_STATUS_CHANGE,
                 'user' => $user,
                 'checklist' => $checklist,
             ]);
