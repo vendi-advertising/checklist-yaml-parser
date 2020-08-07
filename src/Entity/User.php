@@ -69,11 +69,7 @@ class User implements UserInterface, JsonSerializable
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return $this->roles;
     }
 
     public function addRole(string $role): void
@@ -94,7 +90,7 @@ class User implements UserInterface, JsonSerializable
      */
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
+        // This is not used by the current security system
     }
 
     /**
@@ -110,7 +106,7 @@ class User implements UserInterface, JsonSerializable
      */
     public function eraseCredentials(): void
     {
-        // TODO: Implement eraseCredentials() method.
+        // Passwords are only stored hashed so this method isn't needed
     }
 
     public function setPassword(string $password): void

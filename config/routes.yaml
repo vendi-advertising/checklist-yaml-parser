@@ -14,7 +14,7 @@ checklist_create:
     controller: App\Controller\ChecklistCreateController::new
 
 checklist_list:
-    path: /checklist/list
+    path: /checklist
     controller: App\Controller\ChecklistCreateController::list
 
 checklist_create_with_template:
@@ -46,3 +46,7 @@ app_login:
 app_logout:
     path: /logout
     controller: App\Controller\SecurityController::logout
+
+admin_view_users:
+    path: /admin/users
+    controller: App\Controller\AdminUsersController::viewUsers
