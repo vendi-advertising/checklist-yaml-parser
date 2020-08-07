@@ -12,6 +12,7 @@ use Doctrine\ORM\NoResultException;
 use JsonException;
 use Psr\Cache\InvalidArgumentException;
 use Pusher\PusherException;
+use Ramsey\Uuid\Uuid;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,6 +55,7 @@ class SampleController extends AbstractController
                 'status_change_event' => ChecklistFormHelper::PUSHER_EVENT_STATUS_CHANGE,
                 'user' => $user,
                 'checklist' => $checklist,
+                'instance_id' => Uuid::uuid4()->toString(),
             ]);
     }
 
@@ -63,16 +65,20 @@ class SampleController extends AbstractController
      * @param string              $checklistId
      *
      * @return Response
+     * @throws InvalidArgumentException
+     * @throws JsonException
+     * @throws PusherException
      */
     public function entry_update(Request $request, ChecklistFormHelper $checklistFormHelper, string $checklistId): Response
     {
 
         $value = $request->request->get('value');
         $itemId = $request->request->get('itemId');
+        $instanceId = $request->request->get('instanceId');
 
-        $checklistFormHelper->addNewEntry($value, $itemId, $checklistId);
+        $entry = $checklistFormHelper->addNewEntry($value, $itemId, $checklistId, $instanceId);
 
-        return $this->json(['status' => 'success']);
+        return $this->json(['status' => 'success', 'entryId' => $entry->getId(), 'instanceId' => $instanceId]);
     }
 
     /**

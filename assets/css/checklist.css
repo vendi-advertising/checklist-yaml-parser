@@ -43,6 +43,10 @@
     text-align: center;
 }
 
+.section .section-item.remote {
+    background-color: #ffffbb;
+}
+
 .section .section-item .info.with-notes,
 .section .section-item .info:hover {
     background-color: var(--color-info);

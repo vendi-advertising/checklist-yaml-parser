@@ -8,6 +8,7 @@ export default function ( global ) {
         MAGIC_CSS_CLASS_FOR_NA = 'na',
         MAGIC_CSS_CLASS_FOR_DONE = 'done',
         MAGIC_CSS_CLASS_FOR_NOPE = 'nope',
+        MAGIC_CSS_CLASS_FOR_REMOTE_CHANGE = 'remote',
 
         MAGIC_CSS_CLASS_FOR_INFO = 'info',
         MAGIC_CSS_CLASS_FOR_NOTES = 'notes',
@@ -24,6 +25,7 @@ export default function ( global ) {
         MAGIC_ATTRIBUTE_NAME_DATA_TARGET = 'data-target',
         MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_TYPE = 'data-entity-type',
         MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_ID = 'data-entity-id',
+        MAGIC_ATTRIBUTE_NAME_DATA_LAST_ENTRY_ID = 'data-last-entry-id',
 
         MAGIC_ATTRIBUTE_ROLE_VALUE_NEW_NOTE = 'new-note',
         MAGIC_ATTRIBUTE_ROLE_VALUE_MODAL_NEW_NOTE = 'new-note-modal',
@@ -114,14 +116,19 @@ export default function ( global ) {
 
         },
 
-        setRowValue = ( item, value ) => {
+        setRowValue = ( item, value, entryId, isRemoteChange, instanceId ) => {
             const
-                parentRow = item.tagName === 'LI' ? item : item.closest( 'li' )
+                parentRow = item.tagName === 'LI' ? item : item.closest( 'li' ),
+                isDuplicate = window.VENDI_INSTANCE_ID === instanceId
             ;
+
             parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_DONE );
             parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_NA );
             parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_NOPE );
+            parentRow.classList.remove( MAGIC_CSS_CLASS_FOR_REMOTE_CHANGE );
             parentRow.classList.add( value );
+            parentRow.classList.toggle( MAGIC_CSS_CLASS_FOR_REMOTE_CHANGE, !isDuplicate && true === isRemoteChange );
+            parentRow.setAttribute( MAGIC_ATTRIBUTE_NAME_DATA_LAST_ENTRY_ID, entryId )
 
             updatePercentage( item );
         },
@@ -139,10 +146,13 @@ export default function ( global ) {
                                 'change',
                                 ( evt ) => {
                                     const
-                                        rowCssClass = getRowCssClass( radioButton )
+                                        rowCssClass = getRowCssClass( radioButton ),
+                                        isRemoteChange = evt.detail && evt.detail.source && 'remote' === evt.detail.source,
+                                        entryId = isRemoteChange ? evt.detail.entryId : null,
+                                        instanceId = isRemoteChange ? evt.detail.instanceId : null
                                     ;
 
-                                    if ( !evt.detail || !evt.detail.source || 'remote' !== evt.detail.source ) {
+                                    if ( !isRemoteChange ) {
                                         window
                                             .ajax
                                             .post(
@@ -150,11 +160,19 @@ export default function ( global ) {
                                                 {
                                                     value: radioButton.value,
                                                     itemId: radioButton.name,
+                                                    instanceId: window.VENDI_INSTANCE_ID,
+                                                },
+                                                ( responseText, x ) => {
+                                                    if ( 200 !== x.status ) {
+                                                        console.dir( x );
+                                                        console.dir( responseText );
+                                                        window.alert( 'An unknown error occurred. Call Chris.' );
+                                                    }
                                                 }
                                             );
                                     }
 
-                                    setRowValue( radioButton, rowCssClass );
+                                    setRowValue( radioButton, rowCssClass, entryId, isRemoteChange, instanceId );
                                 }
                             )
                         ;
@@ -315,7 +333,13 @@ export default function ( global ) {
                             checkListElement = document.querySelector( `[${MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_TYPE}~=checklist][${MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_ID}="${realData.checklist}"]` ),
                             itemElement = checkListElement.querySelector( `[${MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_TYPE}~=item][${MAGIC_ATTRIBUTE_NAME_DATA_ENTITY_ID}="${realData.item}"]` ),
                             radioButton = itemElement.querySelector( `input[type=radio][value=${realData.entryValue}]` ),
-                            customEvent = new CustomEvent( 'change', { detail: { source: 'remote' } } )
+                            customEvent = new CustomEvent( 'change', {
+                                detail: {
+                                    source: 'remote',
+                                    entryId: realData.entryId,
+                                    instanceId: realData.instanceId,
+                                }
+                            } )
                         ;
                         radioButton.checked = true;
                         radioButton.dispatchEvent( customEvent );

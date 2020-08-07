@@ -97,11 +97,14 @@ class ChecklistFormHelper
      * @param string $itemId
      * @param string $checklistId
      *
+     * @param string $instanceId
+     *
+     * @return Entry
      * @throws InvalidArgumentException
      * @throws JsonException
      * @throws PusherException
      */
-    public function addNewEntry(string $value, string $itemId, string $checklistId): void
+    public function addNewEntry(string $value, string $itemId, string $checklistId, string $instanceId): Entry
     {
         $checklist = $this->checklistRepository->findOneByIdOrThrow($checklistId);
         $item = $this->itemRepository->findOneByIdOrThrow($itemId);
@@ -131,10 +134,14 @@ class ChecklistFormHelper
                         'section' => $section->getId(),
                         'item' => $item->getId(),
                         'entryValue' => $value,
+                        'entryId' => $entry->getId(),
                         'user' => $user,
+                        'instanceId' => $instanceId,
                     ],
                     JSON_THROW_ON_ERROR
                 )
             );
+
+        return $entry;
     }
 }
