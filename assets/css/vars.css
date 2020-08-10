@@ -25,6 +25,9 @@
     --color-foreground-button: var(--color-primary-white);
 
     --color-foreground-link: var(--color-primary-blue);
+
+    --color-background-table-header: var(--color-monokai-background);
+    --color-foreground-table-header: var(--color-monokai-foreground);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -36,5 +39,8 @@
         --color-foreground-button: var(--color-primary-black);
 
         --color-foreground-link: var(--color-monokai-green);
+
+        --color-background-table-header: var(--color-monokai-foreground);
+        --color-foreground-table-header: var(--color-monokai-background);
     }
 }

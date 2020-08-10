@@ -1,0 +1,28 @@
+.admin-root header {
+    align-items: center;
+    background-color: #fff;
+    border-bottom: 0.3rem solid var(--color-brand-red);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 2rem;
+    padding: 2rem 8vw;
+}
+
+.admin-root header .admin-nav {
+    font-size: 1.6rem;
+    justify-self: right;
+    list-style-type: none;
+}
+
+.admin-root header .admin-nav > * {
+    margin: 0;
+}
+
+.admin-root header .admin-nav a {
+    color: var(--color-primary-black);
+    text-decoration: none;
+}
+
+.admin-root header .admin-nav a:hover {
+    text-decoration: underline;
+}

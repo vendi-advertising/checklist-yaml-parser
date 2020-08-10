@@ -1,0 +1,32 @@
+@import "admin/header.css";
+
+.admin-root body {
+    max-width: 100%;
+}
+
+.admin {
+    margin: 0 auto;
+    max-width: 96vw;
+}
+
+.admin table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.admin table thead,
+.admin table tfoot {
+    background-color: var(--color-background-table-header);
+    color: var(--color-foreground-table-header);
+}
+
+.admin table th {
+    text-align: left;
+}
+
+.admin table th,
+.admin table td {
+    border-bottom: 0.1rem solid #e3e7ee;
+    padding: 0.5rem;
+    vertical-align: middle;
+}
