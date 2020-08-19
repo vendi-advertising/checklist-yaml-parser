@@ -29,6 +29,13 @@ class AppFixtures extends Fixture
         $user->addRole('ROLE_USER');
         $manager->persist($user);
 
+        $user = new User('kate@vendiadvertising.com', 'Kate Weis');
+        $user->setPassword($this->passwordEncoder->encodePassword($user, 'test'));
+        $user->addRole('ROLE_CHECKLIST_CREATOR');
+        $user->addRole('ROLE_ADMIN');
+        $user->addRole('ROLE_USER');
+        $manager->persist($user);
+
         $checklistTemplate = (new Template())->setName('Website Launch')->setTemplateFile('website-launch.yaml');
         $manager->persist($checklistTemplate);
 
