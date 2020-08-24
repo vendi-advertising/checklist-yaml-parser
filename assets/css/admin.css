@@ -16,8 +16,13 @@
 
 .admin table thead,
 .admin table tfoot {
-    background-color: var(--color-background-table-header);
-    color: var(--color-foreground-table-header);
+    background-color: var(--color-theme-1);
+    color: var(--color-chris-light);
+}
+
+.admin table tbody {
+    background-color: var(--color-chris-light);
+    color: var(--color-chris-dark);
 }
 
 .admin table th {
@@ -26,7 +31,10 @@
 
 .admin table th,
 .admin table td {
-    border-bottom: 0.1rem solid #e3e7ee;
     padding: 0.5rem;
     vertical-align: middle;
+}
+
+.admin table tbody tr + tr {
+    border-bottom: 0.1rem solid #e3e7ee;
 }
