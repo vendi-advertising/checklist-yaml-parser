@@ -38,8 +38,9 @@ class AppFixtures extends Fixture
             $manager->persist($user);
             unset($user);
         }
+        $manager->flush();
 
-        $chrisUser = $manager->getRepository(User::class)->findOneBy(['email' => 'chris@vendiadvertising.com']);
+        $chrisUser = $manager->getRepository(User::class)->findOneBy(['user' => 'chris@vendiadvertising.com']);
         assert(null !== $chrisUser);
 
         $checklistTemplate = (new Template())->setName('Website Launch')->setTemplateFile('website-launch.yaml');
