@@ -22,12 +22,25 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $user = new User('chris@vendiadvertising.com', 'Chris Haas');
-        $user->setPassword($this->passwordEncoder->encodePassword($user, 'test'));
-        $user->addRole('ROLE_CHECKLIST_CREATOR');
-        $user->addRole('ROLE_ADMIN');
-        $user->addRole('ROLE_USER');
-        $manager->persist($user);
+        $users = [
+            'chris@vendiadvertising.com' => 'Chris Haas',
+            'julie@vendiadvertising.com' => 'Julie Haas',
+            'kate@vendiadvertising.com' => 'Kate Weis',
+            'cj@vendiadvertising.com' => 'CJ Schrunk',
+        ];
+
+        foreach ($users as $email => $name) {
+            $user = new User($email, $name);
+            $user->setPassword($this->passwordEncoder->encodePassword($user, 'test'));
+            $user->addRole('ROLE_CHECKLIST_CREATOR');
+            $user->addRole('ROLE_ADMIN');
+            $user->addRole('ROLE_USER');
+            $manager->persist($user);
+            unset($user);
+        }
+
+        $chrisUser = $manager->getRepository(User::class)->findOneBy(['email' => 'chris@vendiadvertising.com']);
+        assert(null !== $chrisUser);
 
         $checklistTemplate = (new Template())->setName('Website Launch')->setTemplateFile('website-launch.yaml');
         $manager->persist($checklistTemplate);
@@ -37,7 +50,7 @@ class AppFixtures extends Fixture
         )
             ->setTemplate($checklistTemplate)
             ->setDescription('Holmen Cheese')
-            ->setCreatedBy($user);
+            ->setCreatedBy($chrisUser);
 
         $manager->persist($checklist);
 
