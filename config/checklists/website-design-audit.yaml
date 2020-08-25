@@ -1,0 +1,22 @@
+Website Design Audit:
+    Structure:
+        - Clear H1 on non-home pages
+        - Consistent H2 - H6 styling
+    Fonts:
+        - Font licenses accounted for
+        - Fonts have web versions
+        - Font weights and styles listed
+    Colors:
+        - Colors identified
+        - Contrast requirements met
+    Images:
+        - Background image growth
+        - No text in images
+        - Logo is vector
+        - SVGs exist for vector art
+        - Fav Icon
+    Responsive:
+        - Responsive version is generally possible
+    Misc:
+        - Is free-form content specifically aligned
+        - Is content overflowing apparent boxes
