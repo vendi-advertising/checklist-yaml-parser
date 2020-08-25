@@ -9,6 +9,8 @@
     --color-primary-black: #000;
     --color-primary-grey: #333;
 
+    --color-invertable-white: #fff;
+
     --color-done: var(--color-primary-green);
     --color-na: var(--color-primary-grey8);
     --color-info: var(--color-brand-blue);
@@ -28,11 +30,36 @@
 
     --color-background-table-header: var(--color-monokai-background);
     --color-foreground-table-header: var(--color-monokai-foreground);
+
+    /* Microsoft */
+    --color-neutral-dark: #201f1e;
+    --color-neutral-primary: #323130;
+    --color-neutral-primary-alt: #3b3a39;
+    --color-neutral-secondary: #605e5c;
+    --color-neutral-tertiary: #a19f9d;
+    --color-neutral-tertiary-alt: #c8c6c4;
+    --color-neutral-quaternary: #d2d0ce;
+    --color-neutral-quaternary-alt: #e1dfdd;
+    --color-neutral-light: #edebe9;
+    --color-neutral-lighter: #f3f2f1;
+    --color-neutral-lighter-alt: #faf9f8;
+
+    --color-chris-light: #fff;
+    --color-chris-dark: #000;
+
+    --color-theme-1: #dc0928;
+    --color-theme-2: #698f3f;
+    --color-theme-3: #92dce5;
+    --color-theme-4: #064789;
+
+    --color-theme-dark: #252323;
+    --color-theme-grey: #70798c;
+    --color-theme-light: #fff2f1;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --color-background-primary: var(--color-monokai-background);
+        --color-background-primary: #212121;
         --color-foreground-primary: var(--color-monokai-foreground);
 
         --color-background-button: var(--color-monokai-red);
@@ -40,7 +67,26 @@
 
         --color-foreground-link: var(--color-monokai-green);
 
-        --color-background-table-header: var(--color-monokai-foreground);
+        --color-background-table-header: #aaa;
         --color-foreground-table-header: var(--color-monokai-background);
+
+
+        --color-invertable-white: #333;
+
+        --color-neutral-dark: #ffffff;
+        --color-neutral-primary: #ffffff;
+        --color-neutral-primary-alt: #f8f8f8;
+        --color-neutral-secondary: #f4f4f4;
+        --color-neutral-tertiary: #eaeaea;
+        --color-neutral-tertiary-alt: #c8c8c8;
+        --color-neutral-quaternary: #2e2e2e;
+        --color-neutral-quaternary-alt: #2e2e2e;
+        --color-neutral-light: #000000;
+        --color-neutral-lighter: #212121;
+        --color-neutral-lighter-alt: #212121;
+
+
+        --color-chris-light: #212121;
+        --color-chris-dark: #fff;
     }
 }

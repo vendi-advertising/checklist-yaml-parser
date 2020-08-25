@@ -1,7 +1,6 @@
 .admin-root header {
     align-items: center;
-    background-color: #fff;
-    border-bottom: 0.3rem solid var(--color-brand-red);
+    border-bottom: 0.1rem solid var(--color-chris-dark);
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin-bottom: 2rem;
@@ -19,7 +18,7 @@
 }
 
 .admin-root header .admin-nav a {
-    color: var(--color-primary-black);
+    color: var(--color-foreground-link);
     text-decoration: none;
 }
 

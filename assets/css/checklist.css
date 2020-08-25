@@ -12,8 +12,8 @@
 }
 
 .section .section-header {
-    background-color: var(--color-brand-red);
-    color: var(--color-primary-white);
+    background-color: var(--color-theme-1);
+    color: var(--color-chris-light);
     display: grid;
     grid-template-columns: auto 10rem;
     margin: 0;
@@ -35,11 +35,11 @@
 }
 
 .section .section-item .info {
-    background-color: var(--color-primary-white);
-    color: var(--color-info);
+    background-color: var(--color-chris-light);
+    color: var(--color-theme-3);
     cursor: pointer;
     display: block;
-    opacity: 0.2;
+    opacity: 0.4;
     text-align: center;
 }
 
@@ -49,8 +49,8 @@
 
 .section .section-item .info.with-notes,
 .section .section-item .info:hover {
-    background-color: var(--color-info);
-    color: var(--color-primary-white);
+    background-color: var(--color-theme-3);
+    color: var(--color-chris-light);
     opacity: 1;
 }
 
@@ -67,7 +67,7 @@
 }
 
 .section .section-item .notes .note-list .new-note-link {
-    color: var(--color-brand-blue);
+    color: var(--color-theme-3);
     cursor: pointer;
 }
 
@@ -96,15 +96,15 @@
 }
 
 .section .section-item.na .clicker-for-nope {
-    background-color: var(--color-na);
+    background-color: var(--color-theme-grey);
 }
 
 .section .section-item.done .clicker-for-nope {
-    background-color: var(--color-done);
+    background-color: var(--color-theme-2);
 }
 
 .section .section-item.na .clicker-for-nope:hover,
 .section .section-item.done .clicker-for-nope:hover {
-    color: var(--color-primary-white);
+    color: var(--color-chris-light);
     cursor: pointer;
 }

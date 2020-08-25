@@ -4,8 +4,8 @@ html {
 }
 
 body {
-    background-color: var(--color-background-primary);
-    color: var(--color-foreground-primary);
+    background-color: var(--color-chris-light);
+    color: var(--color-chris-dark);
     font-size: 1.6rem;
     margin: 0 auto;
     max-width: 100rem;
